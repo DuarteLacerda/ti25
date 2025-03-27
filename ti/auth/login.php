@@ -45,9 +45,9 @@ if (isset($_POST['username']) && isset($_POST['pass1'])) {
     }
     ?>
     <img class="background" src="../assets/imagens/bg.svg" alt="Background">
-    <div class="container">
+    <div class="container d-flex justify-content-center align-items-center vh-100">
         <form class="AulaForm" action="login.php" method="post">
-            <a href="login.php"><img class="formImg" src="../assets/imagens/estg_h.png" alt="ESTG" class="img-fluid" width="350px"></a>
+            <a href="login.php"><img class="formImg" src="../assets/imagens/estg.png" alt="ESTG" class="img-fluid" width="350px"></a>
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" name="username" required>

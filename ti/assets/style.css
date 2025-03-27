@@ -6,9 +6,11 @@ body {
 }
 
 .background {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
     background: url(../imagens/bg.svg);
-    background-size: cover;
-    background-attachment: fixed;
+    object-fit: cover;
     z-index: -1;
 }
 
@@ -26,19 +28,22 @@ a {
 .AulaForm {
     width: 350px;
     padding: 15px;
-    position: fixed;
     padding: 25px;
-    top: 25%;
-    left: 40%;
-    background-color: rgba(163, 163, 163, 0.185);
+    justify-self: center;
+    background-color: rgba(0, 0, 0, 0.062);
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 1;
+}
+
+.AulaForm label {
+    color: white;
+    font-weight: 500
 }
 
 .formImg {
     width: 85%;
     margin-bottom: 15px;
+    filter: brightness(0) invert(1);
 }
 
 .formBtn {
