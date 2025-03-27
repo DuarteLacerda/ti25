@@ -1,0 +1,112 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+.background {
+    background: url(../imagens/bg.svg);
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: -1;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+a {
+    text-decoration: none !important;
+    color: black !important;
+}
+
+.AulaForm {
+    width: 350px;
+    padding: 15px;
+    position: fixed;
+    padding: 25px;
+    top: 25%;
+    left: 40%;
+    background-color: rgba(163, 163, 163, 0.185);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.formImg {
+    width: 85%;
+    margin-bottom: 15px;
+}
+
+.formBtn {
+    background: linear-gradient(53deg, rgba(9, 9, 121, 1) 25%, rgb(0, 110, 255) 100%);
+    background-size: 200% 200%;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.formBtn:hover {
+    animation: gradientAnimation 2s ease-in-out infinite;
+}
+
+#logo-header {
+    text-align: end;
+}
+
+.estg {
+    max-width: 250px;
+}
+
+.sensor {
+    background-color: #93baff !important;
+    font-weight: bold;
+    text-align: center;
+}
+
+.atuador {
+    background-color: #ffbf6c !important;
+    font-weight: bold;
+    text-align: center;
+}
+
+.footerPic {
+    filter: brightness(0) invert(1);
+}
+
+footer {
+    background-color: transparent;
+    border: none;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@media screen and (max-width: 728px) {
+
+    #title-header,
+    #logo-header {
+        text-align: center;
+        padding: 0 !important;
+    }
+}
