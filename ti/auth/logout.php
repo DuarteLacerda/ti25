@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (isset($_SESSION['username'])) {
+if (isset($_SESSION['username'])) { // Verifica se o utilizador está logado
     session_unset();
     session_destroy();
 ?>

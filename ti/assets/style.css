@@ -25,6 +25,18 @@ a {
     color: black !important;
 }
 
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px 10px 15px;
+    background-color: transparent;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
 .AulaForm {
     width: 350px;
     padding: 15px;
@@ -47,7 +59,7 @@ a {
 }
 
 .formBtn {
-    background: linear-gradient(53deg, rgba(9, 9, 121, 1) 25%, rgb(0, 110, 255) 100%);
+    background: linear-gradient(53deg, rgb(9, 61, 121) 25%, rgb(0, 110, 255) 100%);
     background-size: 200% 200%;
     padding: 10px 20px;
     border: none;
@@ -107,11 +119,27 @@ footer {
     }
 }
 
-@media screen and (max-width: 728px) {
+@media screen and (max-width: 990px) {
+    #navbarNav {
+        margin-left: 30%;
+    }
 
-    #title-header,
+    #title-header {
+        align-self: center;
+        padding: 0;
+        width: 50% !important;
+    }
+
+
     #logo-header {
-        text-align: center;
-        padding: 0 !important;
+        align-self: center;
+        padding: 0;
+        width: 50% !important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #logo-header {
+        width: 25% !important;
     }
 }

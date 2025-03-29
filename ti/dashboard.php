@@ -1,11 +1,11 @@
 <?php
 session_start();
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['username'])) { // Verifica se o utilizador está logado
     header("refresh:5;url=auth/login.php");
     die("Acesso Restrito");
 }
 
-$temperatura = array(
+$temperatura = array( // Array associativa para armazenar os dados da temperatura
     "valor" => file_get_contents("api/temperatura/valor.txt"),
     "hora" => file_get_contents("api/temperatura/hora.txt"),
     "nome" => file_get_contents("api/temperatura/nome.txt"),
@@ -13,7 +13,7 @@ $temperatura = array(
 );
 
 function formatNumber($number)
-{
+{ // Formata o número para duas casas decimais e remove zeros à direita
     return rtrim(rtrim(number_format($number, 2, '.', ''), '0'), '.');
 }
 ?>
@@ -25,15 +25,10 @@ function formatNumber($number)
     <meta charset="UTF-8">
     <title>Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Duarte Lacerda">
-    <meta http-equiv="refresh" content="5">
-    <meta name="description" content="Dashboard de um Servidor IoT">
-    <meta name="keywords" content="IoT, Dashboard, Servidor">
+    <meta http-equiv="refresh" content="15">
     <link rel="icon" href="assets/imagens/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="assets/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <script src="assets/script.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 </head>
 
 <body>
@@ -47,9 +42,6 @@ function formatNumber($number)
             <ul class="navbar-nav">
                 <li class="nav-item active">
                     <a class="nav-link" href="dashboard.php">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-muted" href="#">Histórico</a>
                 </li>
             </ul>
             <form action="auth/logout.php" method="get">
@@ -69,7 +61,7 @@ function formatNumber($number)
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col-sm-4">
+            <div class="col-sm-4 mb-2">
                 <div class="card text-center">
                     <div class="card-header sensor">
                         <p class="mb-0">Temperatura: <?php echo formatNumber($temperatura['valor']); ?>º</p>
@@ -79,11 +71,11 @@ function formatNumber($number)
                     </div>
                     <div class="card-footer">
                         <p class="mb-0"><span class="fw-bold">Atualizado: </span><?php echo $temperatura["hora"]; ?> - <a
-                                href="#">Histórico</a></p>
+                                href="history.php?nome=temperatura">Histórico</a></p>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 mb-2">
                 <div class="card text-center">
                     <div class="card-header sensor">
                         <p class="mb-0">Humidade: 70%</p>
@@ -97,7 +89,7 @@ function formatNumber($number)
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 mb-2">
                 <div class="card text-center">
                     <div class="card-header atuador">
                         <p class="mb-0">Led Arduino: Ligado</p>
@@ -167,13 +159,15 @@ function formatNumber($number)
         <div class="d-flex justify-content-between align-items-center">
             <div class="text-center p-3 ms-5">
                 <a href="https://duartelacerda.github.io" target="_blank"><img src="assets/imagens/signed.png"
-                        alt="Duarte Lacerda" class="img-fluid" width="150px"></a>
+                        alt="Duarte Lacerda" class="img-fluid" width="150"></a>
             </div>
             <div class="text-center p-3 me-5">
                 <a href="https://www.ipleiria.pt/curso/licenciatura-em-engenharia-informatica/" target="_blank"><img src="assets/imagens/estg.png" alt="ESTG" width="150"></a>
             </div>
         </div>
     </footer>
+    <script src="assets/script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 </body>
 
 </html>
