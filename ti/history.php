@@ -59,83 +59,87 @@ $historico = array_slice($historico, 0, 50);
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-evenly" id="navbar">
-        <a class="navbar-brand fw-bold ms-5" href="dashboard.php">Dashboard EI-TI</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-between me-5" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="dashboard.php">Home</a>
-                </li>
-            </ul>
-            <form action="auth/logout.php" method="get">
-                <button class="btn btn-outline-dark">Logout</button>
-            </form>
-        </div>
+    <?php include("add-ons/nav.php"); ?>
     </nav>
     <div class="container mt-4">
         <h2 class="mb-4">Histórico de <?php echo ucfirst($nome); ?></h2>
-        <table class="table table-bordered table-striped text-center">
-            <thead class="table-dark">
-                <tr>
-                    <th>Valor</th>
-                    <th>Data de Atualização</th>
-                    <th>Estado Alertas</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($historico as $dado): ?>
+        <div class="row mt-4">
+            <table class="table table-bordered table-striped text-center">
+                <thead class="table-dark">
                     <tr>
-                        <td><?php echo formatNumber($dado["valor"]); ?><?php echo $nome == "temperatura" ? "ºC" : "%"; ?></td>
-                        <td><?php echo $dado["hora"]; ?></td>
-                        <td>
-                            <?php
-                            switch ($nome) {
-                                case "temperatura":
-                                    if ($dado["valor"] >= 40.00) {
-                                        echo "<span class='badge bg-danger'>Crítico</span>";
-                                    } elseif ($dado["valor"] > 20.00 && $dado["valor"] < 40.00) {
-                                        echo "<span class='badge bg-warning'>Elevado</span>";
-                                    } elseif ($dado["valor"] < 20.00 && $dado["valor"] > 0.00) {
-                                        echo "<span class='badge bg-primary'>Normal</span>";
-                                    } else {
-                                        echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
-                                    }
-                                    break;
-                                case "humidade":
-                                    if ($dado["valor"] >= 80.00) {
-                                        echo "<span class='badge bg-danger'>Crítico</span>";
-                                    } elseif ($dado["valor"] > 50.00 && $dado["valor"] < 80.00) {
-                                        echo "<span class='badge bg-warning'>Elevado</span>";
-                                    } else {
-                                        echo "<span class='badge bg-success'>Normal</span>";
-                                    }
-                                    break;
-                                default:
-                                    echo "<span class='badge bg-secondary'>Desconhecido</span>";
-                                    break;
-                            }
-                            ?>
-                        </td>
+                        <th>Valor</th>
+                        <th>Data de Atualização</th>
+                        <th>Estado Alertas</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <footer class="bg-body-tertiary">
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="text-center p-3 ms-5">
-                <a href="https://duartelacerda.github.io" target="_blank"><img src="assets/imagens/signed.png"
-                        alt="Duarte Lacerda" class="img-fluid" width="150"></a>
-            </div>
-            <div class="text-center p-3 me-5">
-                <a href="https://www.ipleiria.pt/curso/licenciatura-em-engenharia-informatica/" target="_blank"><img src="assets/imagens/estg.png" alt="ESTG" width="150"></a>
-            </div>
+                </thead>
+                <tbody>
+                    <?php foreach ($historico as $dado): ?>
+                        <tr>
+                            <td><?php
+                                echo formatNumber($dado["valor"]);
+                                switch ($nome) {
+                                    case "temperatura":
+                                        echo "°C";
+                                        break;
+                                    case "humidade":
+                                        echo "%";
+                                        break;
+                                    default:
+                                        echo "";
+                                        break;
+                                } ?>
+                            </td>
+                            <td><?php echo $dado["hora"]; ?></td>
+                            <td>
+                                <?php
+                                switch ($nome) {
+                                    case "temperatura":
+                                        if ($dado["valor"] >= 40.00) {
+                                            echo "<span class='badge bg-danger'>Crítico</span>";
+                                        } elseif ($dado["valor"] > 20.00 && $dado["valor"] < 40.00) {
+                                            echo "<span class='badge bg-warning'>Elevado</span>";
+                                        } elseif ($dado["valor"] < 20.00 && $dado["valor"] > 0.00) {
+                                            echo "<span class='badge bg-primary'>Normal</span>";
+                                        } else {
+                                            echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
+                                        }
+                                        break;
+                                    case "humidade":
+                                        if ($dado["valor"] >= 80.00) {
+                                            echo "<span class='badge bg-danger'>Crítico</span>";
+                                        } elseif ($dado["valor"] > 50.00 && $dado["valor"] < 80.00) {
+                                            echo "<span class='badge bg-warning'>Elevado</span>";
+                                        } elseif ($dado["valor"] <= 50.00 && $dado["valor"] > 0.00) {
+                                            echo "<span class='badge bg-primary'>Normal</span>";
+                                        } else {
+                                            echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
+                                        }
+                                        break;
+                                    case "led":
+                                        if ($dado["valor"] == 1) {
+                                            echo "<span class='badge bg-success'>Ligado</span>";
+                                        } elseif ($dado["valor"] == 0) {
+                                            echo "<span class='badge bg-danger'>Desligado</span>";
+                                        } else {
+                                            echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
+                                        }
+                                        break;
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+
         </div>
-    </footer>
+        <div class="text-end mt-4">
+            <form action="dashboard.php" method="GET">
+                <button class="btn btn-outline-dark">Voltar</button>
+            </form>
+        </div>
+    </div>
+    <?php include("add-ons/footer.php"); ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
 </body>
 

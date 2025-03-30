@@ -3,6 +3,7 @@ body {
     margin: 0;
     padding: 0;
     scroll-behavior: smooth;
+    /* Faz com que a rolagem da página seja suave */
 }
 
 .background {
@@ -10,28 +11,33 @@ body {
     height: 100vh;
     position: absolute;
     background: url(../imagens/bg.svg);
+    /* Define uma imagem de fundo */
     object-fit: cover;
     z-index: -1;
+    /* Mantém o fundo atrás de todos os elementos */
 }
 
 .container {
     width: 100%;
     margin: 0 auto;
     padding: 0 15px;
+    /* Adiciona espaçamento interno ao container */
 }
 
 a {
     text-decoration: none !important;
     color: black !important;
+    /* Remove a decoração de links e força a cor preta */
 }
 
 #navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 15px 10px 15px;
+    padding: 10px 15px;
     background-color: transparent;
     position: sticky;
+    /* Mantém a barra de navegação fixa no topo */
     top: 0;
     width: 100%;
     z-index: 1;
@@ -39,23 +45,26 @@ a {
 
 .AulaForm {
     width: 350px;
-    padding: 15px;
     padding: 25px;
     justify-self: center;
     background-color: rgba(0, 0, 0, 0.062);
+    /* Fundo semi-transparente */
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Adiciona uma sombra ao formulário */
 }
 
 .AulaForm label {
     color: white;
-    font-weight: 500
+    font-weight: 500;
+    /* Torna os textos das labels mais destacados */
 }
 
 .formImg {
     width: 85%;
     margin-bottom: 15px;
     filter: brightness(0) invert(1);
+    /* Faz com que a imagem fique em tons de branco */
 }
 
 .formBtn {
@@ -67,40 +76,85 @@ a {
     color: white;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
+    /* Suaviza a animação ao passar o mouse */
 }
 
 .formBtn:hover {
     animation: gradientAnimation 2s ease-in-out infinite;
+    /* Aplica animação ao fundo no hover */
+}
+
+/* Estilo do container dos relógios mundiais */
+.world-clock {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+/* Estilo individual de cada relógio */
+.clock {
+    background-color: #212529;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    width: 175px;
+    height: 80px;
+    font-family: 'Arial', sans-serif;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+    /* Adiciona um efeito de sombra */
+}
+
+.clock h4 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.clock p {
+    font-size: 18px;
+    font-weight: bold;
 }
 
 #logo-header {
     text-align: end;
+    /* Alinha o logo à direita */
 }
 
 .estg {
     max-width: 250px;
+    /* Define um tamanho máximo para o logo */
 }
 
 .sensor {
     background-color: #93baff !important;
     font-weight: bold;
     text-align: center;
+    /* Fundo azul claro para sensores */
 }
 
 .atuador {
     background-color: #ffbf6c !important;
     font-weight: bold;
     text-align: center;
+    /* Fundo laranja para atuadores */
 }
 
 .footerPic {
     filter: brightness(0) invert(1);
+    /* Ajusta a imagem para um contraste melhor */
 }
 
 footer {
     background-color: transparent;
     border: none;
     position: fixed;
+    /* Mantém o rodapé fixo no fundo da página */
     bottom: 0;
     width: 100%;
 }
@@ -119,6 +173,7 @@ footer {
     }
 }
 
+/* Responsividade para telas menores que 990px */
 @media screen and (max-width: 990px) {
     #navbarNav {
         margin-left: 30%;
@@ -130,7 +185,6 @@ footer {
         width: 50% !important;
     }
 
-
     #logo-header {
         align-self: center;
         padding: 0;
@@ -138,6 +192,7 @@ footer {
     }
 }
 
+/* Responsividade para telas menores que 600px */
 @media screen and (max-width: 600px) {
     #logo-header {
         width: 25% !important;
