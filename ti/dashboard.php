@@ -162,9 +162,9 @@ function formatNumber($number)
                                 <?php
                                 switch (true) {
                                     case "humidade":
-                                        if ($dado["valor"] >= 80.00) {
+                                        if ($humidade["valor"] >= 80.00) {
                                             echo "<td><span class='badge bg-danger'>Crítico</span></td>";
-                                        } elseif ($dado["valor"] > 50.00 && $dado["valor"] < 80.00) {
+                                        } elseif ($humidade["valor"] > 50.00 && $humidade["valor"] < 80.00) {
                                             echo "<td><span class='badge bg-warning'>Elevado</span></td>";
                                         } else {
                                             echo "<td><span class='badge bg-primary'>Normal</span></td>";
