@@ -11,7 +11,7 @@ $temperatura = array( // Array associativa para armazenar os dados da temperatur
     "nome" => file_get_contents("api/temperatura/nome.txt"),
     "log" => file_get_contents("api/temperatura/log.txt")
 );
-
+//abc
 $humidade = array( // Array associativa para armazenar os dados da humidade
     "valor" => file_get_contents("api/humidade/valor.txt"),
     "hora" => file_get_contents("api/humidade/hora.txt"),
