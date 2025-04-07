@@ -1,0 +1,62 @@
+body {
+    background-color: var(--background-100) !important;
+    /* Cor de fundo do container */
+}
+
+.card {
+    background-color: #fff !important;
+    /* Cor de fundo dos cards */
+    border-radius: 10px !important;
+    /* Bordas arredondadas nos cards */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+    /* Sombra leve nos cards */
+}
+
+.card-header {
+    background-color: transparent !important;
+    /* Cor de fundo do cabeçalho dos cards */
+}
+
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0 10px 0;
+    background-color: transparent !important;
+    position: sticky;
+    /* Mantém a barra de navegação fixa no topo */
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+#logo-header {
+    text-align: end;
+    /* Alinha o logo à direita */
+}
+
+.estg {
+    max-width: 250px;
+    /* Define um tamanho máximo para o logo */
+}
+
+.sensor {
+    background-color: #93baff !important;
+    font-weight: bold;
+    text-align: center;
+    /* Fundo azul claro para sensores */
+}
+
+.atuador {
+    background-color: #ffbf6c !important;
+    font-weight: bold;
+    text-align: center;
+    /* Fundo laranja para atuadores */
+}
+
+/* Responsividade para telas menores que 990px */
+@media screen and (max-width: 990px) {
+    #navbarNav {
+        margin-left: 20%;
+    }
+}

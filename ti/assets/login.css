@@ -1,0 +1,63 @@
+.background {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    object-fit: cover;
+    z-index: -90;
+    /* Mantém o fundo atrás de todos os elementos */
+}
+
+.AulaForm {
+    width: 350px;
+    padding: 25px;
+    justify-self: center;
+    background-color: rgba(0, 0, 0, 0.062);
+    /* Fundo semi-transparente */
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Adiciona uma sombra ao formulário */
+}
+
+.AulaForm label {
+    color: white;
+    font-weight: 500;
+    /* Torna os textos das labels mais destacados */
+}
+
+.formImg {
+    width: 85%;
+    margin-bottom: 15px;
+    filter: brightness(0) invert(1);
+    /* Faz com que a imagem fique em tons de branco */
+}
+
+.formBtn {
+    background: linear-gradient(53deg, rgb(9, 61, 121) 25%, rgb(0, 110, 255) 100%);
+    background-size: 200% 200%;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    /* Suaviza a animação ao passar o mouse */
+}
+
+.formBtn:hover {
+    animation: gradientAnimation 2s ease-in-out infinite;
+    /* Aplica animação ao fundo no hover */
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}

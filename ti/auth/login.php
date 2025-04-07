@@ -47,7 +47,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) { // Verificar se o 
     <title>TI - Servidor IoT</title>
     <meta name="author" content="Duarte Lacerda">
     <link rel="icon" href="../assets/imagens/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="../assets/login.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <script src="assets/script.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
@@ -64,7 +64,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) { // Verificar se o 
         exit();
     }
     ?>
-    <img class="background" src="../assets/imagens/bg.svg" alt="Background">
+    <img class="background" src="../assets/imagens/bg.svg" alt="Background"></div>
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <form class="AulaForm" action="login.php" method="post">
             <a href="login.php"><img class="img-fluid formImg" src="../assets/imagens/estg.png" alt="ESTG" width="350"></a>
@@ -83,19 +83,6 @@ if (isset($_POST['username']) && isset($_POST['password'])) { // Verificar se o 
             <button type="submit" class="formBtn" style="color: white;">Submit</button>
         </form>
     </div>
-    <footer class="bg-body-transparent">
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="text-center p-3 ms-5">
-                <a href="https://duartelacerda.github.io" target="_blank"><img class="img-fluid footerPic" src="../assets/imagens/signed.png"
-                        alt="Duarte Lacerda" width="150"></a>
-            </div>
-            <div class="text-center p-3 me-5">
-                <a href="https://www.ipleiria.pt/curso/licenciatura-em-engenharia-informatica/" target="_blank">
-                    <p style="color: white;"><img class="footerPic" src="../assets/imagens/estg.png" alt="ESTG" width="150"></p>
-                </a>
-            </div>
-        </div>
-    </footer>
 </body>
 
 </html>

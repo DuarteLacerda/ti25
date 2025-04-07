@@ -42,34 +42,19 @@ function formatNumber($number)
     <meta http-equiv="refresh" content="5">
     <link rel="icon" href="assets/imagens/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/dashboard.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 
 <body>
-    <?php include("add-ons/nav.php"); ?>
     <div class="container">
+        <?php include("add-ons/nav.php"); ?>
         <div class="row mt-4">
-            <div id="title-header" class="col-md-3 ps-5">
+            <div id="title-header" class="col-md-6">
                 <h1>Servidor IoT</h1>
                 <h6 id="user-name"><img src="assets/imagens/user.png" alt="Fotografia do utilizador" width="25"> <?php echo $_SESSION['username'] ?></h6>
             </div>
-            <div id="clock-header" class="col-md-6">
-                <div class="world-clock">
-                    <div class="clock">
-                        <h4>Lisboa, Portugal</h4>
-                        <p id="lisbon-time"></p>
-                    </div>
-                    <div class="clock">
-                        <h4>New York, USA</h4>
-                        <p id="newyork-time"></p>
-                    </div>
-                    <div class="clock">
-                        <h4>Tokyo, Japão</h4>
-                        <p id="tokyo-time"></p>
-                    </div>
-                </div>
-            </div>
-            <div id="logo-header" class="col-md-3 pe-5">
+            <div id="logo-header" class="col-md-6">
                 <a href="https://www.ipleiria.pt/estg" target="_blank"><img class="estg" src="assets/imagens/estg.png"
                         alt="Politécnico de Leiria"></a>
             </div>
@@ -124,7 +109,7 @@ function formatNumber($number)
                     Tabela de Sensores
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered table-striped text-center">
+                    <table class="table table-striped text-center">
                         <thead class="table-dark">
                             <tr>
                                 <th>Tipo de Dispositivo IoT</th>
@@ -199,8 +184,8 @@ function formatNumber($number)
                 </div>
             </div>
         </div>
+        <?php include("add-ons/footer.php"); ?>
     </div>
-    <?php include("add-ons/footer.php"); ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="assets/script.js" defer></script>
 </body>

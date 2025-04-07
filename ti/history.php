@@ -10,7 +10,7 @@ function formatNumber($num) // Formata o número para duas casas decimais e remo
     return rtrim(rtrim(number_format($num, 2, '.', ''), '0'), '.');
 }
 
-$nome = $_GET['nome'] ?? null; // Obter o nome passado na URL
+$nome = $_GET['nome']; // Obter o nome passado na URL
 
 $logFilePath = "api/{$nome}/log.txt"; // Caminho do ficheiro de log
 
@@ -18,7 +18,8 @@ $logFilePath = "api/{$nome}/log.txt"; // Caminho do ficheiro de log
 if (!$nome || !file_exists($logFilePath)) { // Verificar se o ficheiro existe
     echo "Sensor não encontrado!\nSe não for redirecionado automaticamente, clique <a href='dashboard.php'>aqui</a>.";
     http_response_code(404); // Not Found
-    header("refresh:5;url=dashboard.php");
+    header("refresh:3;url=dashboard.php");
+    exit;
 }
 
 // Ler o ficheiro e dividir em linhas
@@ -55,14 +56,14 @@ $historico = array_slice($historico, 0, 50);
     <link rel="icon" href="assets/imagens/favicon.png" type="image/x-icon">
     <meta http-equiv="refresh" content="5">
     <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/dashboard.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <?php include("add-ons/nav.php"); ?>
-    </nav>
-    <div class="container mt-4">
-        <h2 class="mb-4">Histórico de <?php echo ucfirst($nome); ?></h2>
+    <div class="container">
+        <?php include("add-ons/nav.php"); ?>
+        <h2 class="mt-5 mb-3">Histórico de <?php echo ucfirst($nome); ?></h2>
         <div class="row mt-4">
             <table class="table table-bordered table-striped text-center">
                 <thead class="table-dark">
@@ -138,8 +139,8 @@ $historico = array_slice($historico, 0, 50);
                 <button class="btn btn-outline-dark">Voltar</button>
             </form>
         </div>
+        <?php include("add-ons/footer.php"); ?>
     </div>
-    <?php include("add-ons/footer.php"); ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
 </body>
 
