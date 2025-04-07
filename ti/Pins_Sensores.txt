@@ -1,0 +1,7 @@
+# Pin Configuration Table
+
+| Component       | Pin Type       | Pin Number |
+|------------------|----------------|------------|
+| Ultrasonic Sensor| Trigger (TRIG) | D9         |
+| Ultrasonic Sensor| Echo (ECHO)    | D10        |
+| Servo Motor      | Signal (PWM)   | D11        |

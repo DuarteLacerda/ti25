@@ -18,8 +18,7 @@ $logFilePath = "api/{$nome}/log.txt"; // Caminho do ficheiro de log
 if (!$nome || !file_exists($logFilePath)) { // Verificar se o ficheiro existe
     echo "Sensor não encontrado!\nSe não for redirecionado automaticamente, clique <a href='dashboard.php'>aqui</a>.";
     http_response_code(404); // Not Found
-    header("refresh:3;url=dashboard.php");
-    exit;
+    header("refresh:5;url=dashboard.php");
 }
 
 // Ler o ficheiro e dividir em linhas
@@ -32,7 +31,7 @@ foreach ($logData as $linha) { // Processar cada linha do ficheiro
     if (count($dados) == 2) {
         $historico[] = [
             "hora" => trim($dados[0]), // A hora deve ser uma string
-            "valor" => (float) trim($dados[1]) // O valor deve ser um número
+            "valor" => trim($dados[1]) // O valor deve ser uma string
         ];
     }
 }
@@ -54,7 +53,6 @@ $historico = array_slice($historico, 0, 50);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="assets/imagens/favicon.png" type="image/x-icon">
-    <meta http-equiv="refresh" content="5">
     <link rel="stylesheet" href="assets/style.css">
     <link rel="stylesheet" href="assets/dashboard.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -63,7 +61,7 @@ $historico = array_slice($historico, 0, 50);
 <body>
     <div class="container">
         <?php include("add-ons/nav.php"); ?>
-        <h2 class="mt-5 mb-3">Histórico de <?php echo ucfirst($nome); ?></h2>
+        <h2 class="mt-5 mb-4">Histórico de <?php echo ucfirst($nome); ?></h2>
         <div class="row mt-4">
             <table class="table table-bordered table-striped text-center">
                 <thead class="table-dark">
@@ -77,16 +75,15 @@ $historico = array_slice($historico, 0, 50);
                     <?php foreach ($historico as $dado): ?>
                         <tr>
                             <td><?php
-                                echo formatNumber($dado["valor"]);
                                 switch ($nome) {
                                     case "temperatura":
-                                        echo "°C";
+                                        echo formatNumber($dado["valor"]) . "°C";
                                         break;
-                                    case "humidade":
-                                        echo "%";
+                                    case "servo":
+                                        echo formatNumber($dado["valor"]) . "º";
                                         break;
-                                    default:
-                                        echo "";
+                                    case "ultrasonico":
+                                        echo formatNumber($dado["valor"]) . "cm";
                                         break;
                                 } ?>
                             </td>
@@ -105,22 +102,26 @@ $historico = array_slice($historico, 0, 50);
                                             echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
                                         }
                                         break;
-                                    case "humidade":
+                                    case "servo":
                                         if ($dado["valor"] >= 80.00) {
-                                            echo "<span class='badge bg-danger'>Crítico</span>";
-                                        } elseif ($dado["valor"] > 50.00 && $dado["valor"] < 80.00) {
-                                            echo "<span class='badge bg-warning'>Elevado</span>";
-                                        } elseif ($dado["valor"] <= 50.00 && $dado["valor"] > 0.00) {
-                                            echo "<span class='badge bg-primary'>Normal</span>";
+                                            echo "<span class='badge bg-success'>Fechado</span>";
+                                        } elseif ($dado["valor"] < 80.00) {
+                                            echo "<span class='badge bg-danger'>Aberto</span>";
                                         } else {
                                             echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
                                         }
                                         break;
-                                    case "led":
-                                        if ($dado["valor"] == 1) {
-                                            echo "<span class='badge bg-success'>Ligado</span>";
-                                        } elseif ($dado["valor"] == 0) {
-                                            echo "<span class='badge bg-danger'>Desligado</span>";
+                                    case "ultrasonico":
+                                        if ($dado["valor"] >= 100.00) {
+                                            echo "<span class='badge bg-danger'>Muito Longe</span>";
+                                        } elseif ($dado["valor"] > 50.00 && $dado["valor"] < 100.00) {
+                                            echo "<span class='badge bg-danger'>Longe</span>";
+                                        } elseif ($dado["valor"] <= 50.00 && $dado["valor"] > 20.00) {
+                                            echo "<span class='badge bg-warning'>+/- Longe</span>";
+                                        } elseif ($dado["valor"] <= 20.00 && $dado["valor"] > 10.00) {
+                                            echo "<span class='badge bg-warning'>Perto</span>";
+                                        } elseif ($dado["valor"] <= 10.00 && $dado["valor"] > 0.00) {
+                                            echo "<span class='badge bg-success'>Muito Perto</span>";
                                         } else {
                                             echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
                                         }
@@ -134,7 +135,7 @@ $historico = array_slice($historico, 0, 50);
             </table>
 
         </div>
-        <div class="text-end mt-4">
+        <div class="text-end mt-4 mb-4">
             <form action="dashboard.php" method="GET">
                 <button class="btn btn-outline-dark">Voltar</button>
             </form>
