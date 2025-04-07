@@ -202,7 +202,24 @@ function formatNumber($number)
                                 }
                                 ?>
                             </td>
+                        </tr>                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <h2>Tabela de Atuadores</h2>
+            <div class="table-responsive-sm">
+                <table class="table table-hover text-center align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Atuador</th>
+                            <th>Valor</th>
+                            <th>Data</th>
+                            <th>Status</th>
                         </tr>
+                    </thead>
+                    <tbody>                        
                         <!-- Ventoinha -->
                         <tr>
                             <td>
