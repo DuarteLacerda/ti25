@@ -79,11 +79,20 @@ $historico = array_slice($historico, 0, 50);
                                     case "temperatura":
                                         echo formatNumber($dado["valor"]) . "°C";
                                         break;
+                                    case "humidade":
+                                        echo formatNumber($dado["valor"]) . "%";
+                                        break;
+                                    case "ultrasonico":
+                                        echo formatNumber($dado["valor"]) . " cm";
+                                        break;
+                                    case "ventoinha":
+                                        echo formatNumber($dado["valor"]) . " RPM";
+                                        break;
                                     case "servo":
                                         echo formatNumber($dado["valor"]) . "º";
                                         break;
-                                    case "ultrasonico":
-                                        echo formatNumber($dado["valor"]) . "cm";
+                                    case "led":
+                                        echo formatNumber($dado["valor"]);
                                         break;
                                 } ?>
                             </td>
@@ -102,11 +111,13 @@ $historico = array_slice($historico, 0, 50);
                                             echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
                                         }
                                         break;
-                                    case "servo":
+                                    case "humidade":
                                         if ($dado["valor"] >= 80.00) {
-                                            echo "<span class='badge bg-success'>Fechado</span>";
-                                        } elseif ($dado["valor"] < 80.00) {
-                                            echo "<span class='badge bg-danger'>Aberto</span>";
+                                            echo "<span class='badge bg-danger'>Crítico</span>";
+                                        } elseif ($dado["valor"] > 50.00 && $dado["valor"] < 80.00) {
+                                            echo "<span class='badge bg-warning'>Elevado</span>";
+                                        } elseif ($dado["valor"] < 50.00 && $dado["valor"] > 0.00) {
+                                            echo "<span class='badge bg-primary'>Normal</span>";
                                         } else {
                                             echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
                                         }
@@ -122,6 +133,33 @@ $historico = array_slice($historico, 0, 50);
                                             echo "<span class='badge bg-warning'>Perto</span>";
                                         } elseif ($dado["valor"] <= 10.00 && $dado["valor"] > 0.00) {
                                             echo "<span class='badge bg-success'>Muito Perto</span>";
+                                        } else {
+                                            echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
+                                        }
+                                        break;
+                                    case "ventoinha":
+                                        if ($dado["valor"] >= 5.00) {
+                                            echo "<span class='badge bg-success'>Ligado</span>";
+                                        } elseif ($dado["valor"] > 0.00 && $dado["valor"] < 5.00) {
+                                            echo "<span class='badge bg-danger'>Desligado</span>";
+                                        } else {
+                                            echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
+                                        }
+                                        break;
+                                    case "servo":
+                                        if ($dado["valor"] >= 80.00) {
+                                            echo "<span class='badge bg-success'>Fechado</span>";
+                                        } elseif ($dado["valor"] < 80.00) {
+                                            echo "<span class='badge bg-danger'>Aberto</span>";
+                                        } else {
+                                            echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
+                                        }
+                                        break;
+                                    case "led":
+                                        if ($dado["valor"] == 1) {
+                                            echo "<span class='badge bg-success'>Ligado</span>";
+                                        } elseif ($dado["valor"] == 0) {
+                                            echo "<span class='badge bg-danger'>Desligado</span>";
                                         } else {
                                             echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
                                         }

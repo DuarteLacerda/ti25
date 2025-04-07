@@ -89,7 +89,8 @@ body {
 a {
     text-decoration: none !important;
     /* Remove a decoração de links */
-    color: #000 !important;
+    color: var(--text-950) !important;
+    /* Define a cor do texto dos links */
 }
 
 .footerPic {
