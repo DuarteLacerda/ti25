@@ -1,0 +1,167 @@
+body {
+    background-color: var(--background-50) !important;
+    /* Cor de fundo do container */
+}
+
+.bg-c-blue {
+    background: linear-gradient(45deg, #4099ff, #73b4ff);
+}
+
+.bg-c-green {
+    background: linear-gradient(45deg, #2ed8b6, #59e0c5);
+}
+
+.bg-c-yellow {
+    background: linear-gradient(45deg, #FFB64D, #ffcb80);
+}
+
+.bg-c-pink {
+    background: linear-gradient(45deg, #FF5370, #ff869a);
+}
+
+.bg-c-orange {
+    background: linear-gradient(45deg, #FF9800, #ffb74d);
+}
+
+.bg-c-purple {
+    background: linear-gradient(45deg, #8B5CD6, #a77bff);
+}
+
+
+.card {
+    height: 150px;
+    border-radius: 5px;
+    background-color: var(--background-600) !important;
+    color: var(--text-900) !important;
+    -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+    box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+    border: none;
+    margin-bottom: 10px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.card .card-header {
+    padding: 20px 25px;
+    border-bottom: none;
+    background-color: transparent !important;
+    /* Cor de fundo do cabeçalho dos cards */
+}
+
+.card .card-block {
+    padding: 25px;
+}
+
+.order-card i {
+    font-size: 26px;
+}
+
+.f-left {
+    float: left;
+}
+
+.f-right {
+    float: right;
+}
+
+.card-header {
+    background-color: transparent !important;
+    /* Cor de fundo do cabeçalho dos cards */
+}
+
+.order-card:hover {
+    transform: translateY(-10px);
+    transform: scale(1.02);
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+
+    .spin {
+        animation: spin 3.5s linear infinite;
+    }
+
+    .spin_reverse {
+        animation: spin_reverse 4s linear infinite;
+    }
+
+    .pulse {
+        animation: pulse 2.5s linear infinite;
+    }
+}
+
+#logo-header {
+    text-align: end;
+    /* Alinha o logo à direita */
+}
+
+.estg {
+    max-width: 250px;
+    /* Define um tamanho máximo para o logo */
+}
+
+.sensor {
+    background-color: #93baff !important;
+    font-weight: bold;
+    text-align: center;
+    /* Fundo azul claro para sensores */
+}
+
+.atuador {
+    background-color: #ffbf6c !important;
+    font-weight: bold;
+    text-align: center;
+    /* Fundo laranja para atuadores */
+}
+
+/* Responsividade para telas menores que 990px */
+@media screen and (max-width: 990px) {
+    #navbarNav {
+        margin-left: 20%;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spin_reverse {
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: scale(1.10);
+        transform: rotate(10deg);
+    }
+
+    50% {
+        transform: scale(1.25);
+        transform: rotate(0deg);
+    }
+
+    75% {
+        transform: scale(1.10);
+        transform: rotate(-10deg);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

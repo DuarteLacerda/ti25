@@ -1,0 +1,107 @@
+:root {
+    --text-50: #f0ebfa;
+    --text-100: #e2d7f4;
+    --text-200: #c4aeea;
+    --text-300: #a786df;
+    --text-400: #895ed4;
+    --text-500: #6c36c9;
+    --text-600: #562ba1;
+    --text-700: #412079;
+    --text-800: #2b1551;
+    --text-900: #160b28;
+    --text-950: #0b0514;
+
+    --background-50: #f0ebfa;
+    --background-100: #e2d7f4;
+    --background-200: #c4aeea;
+    --background-300: #a786df;
+    --background-400: #895ed4;
+    --background-500: #6c36c9;
+    --background-600: #562ba1;
+    --background-700: #412079;
+    --background-800: #2b1551;
+    --background-900: #160b28;
+    --background-950: #0b0514;
+
+    --primary-50: #f0ebfa;
+    --primary-100: #e2d6f5;
+    --primary-200: #c5adeb;
+    --primary-300: #a885e0;
+    --primary-400: #8b5cd6;
+    --primary-500: #6e33cc;
+    --primary-600: #5829a3;
+    --primary-700: #421f7a;
+    --primary-800: #2c1452;
+    --primary-900: #160a29;
+    --primary-950: #0b0514;
+
+    --secondary-50: #f3faeb;
+    --secondary-100: #e6f5d6;
+    --secondary-200: #cdebad;
+    --secondary-300: #b4e085;
+    --secondary-400: #9bd65c;
+    --secondary-500: #82cc33;
+    --secondary-600: #68a329;
+    --secondary-700: #4e7a1f;
+    --secondary-800: #345214;
+    --secondary-900: #1a290a;
+    --secondary-950: #0d1405;
+
+    --accent-50: #ebfaf2;
+    --accent-100: #d6f5e6;
+    --accent-200: #adebcc;
+    --accent-300: #85e0b3;
+    --accent-400: #5cd699;
+    --accent-500: #33cc80;
+    --accent-600: #29a366;
+    --accent-700: #1f7a4d;
+    --accent-800: #145233;
+    --accent-900: #0a291a;
+    --accent-950: #05140d;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    scroll-behavior: smooth;
+    /* Faz com que a rolagem da página seja suave */
+}
+
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0 10px 0;
+    background-color: transparent !important;
+    position: static;
+    /* Mantém a barra de navegação fixa no topo */
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    /* Adiciona espaçamento interno ao container */
+}
+
+a {
+    text-decoration: none !important;
+    /* Remove a decoração de links */
+    color: #000 !important;
+}
+
+.footerPic {
+    filter: brightness(0) invert(1);
+    /* Ajusta a imagem para um contraste melhor */
+}
+
+footer {
+    background-color: transparent !important;
+    /* Cor de fundo transparente para o rodapé */
+    border: none;
+    position: static;
+    /* Mantém o rodapé fixo no fundo da página */
+    bottom: 0;
+}
