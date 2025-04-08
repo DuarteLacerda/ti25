@@ -59,126 +59,128 @@ $historico = array_slice($historico, 0, 50);
 </head>
 
 <body>
-    <div class="container">
-        <?php include("add-ons/nav.php"); ?>
-        <h2 class="mt-5 mb-4">Histórico de <?php echo ucfirst($nome); ?></h2>
-        <div class="row mt-4">
-            <table class="table table-bordered table-striped text-center">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Valor</th>
-                        <th>Data de Atualização</th>
-                        <th>Estado Alertas</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($historico as $dado): ?>
+    <div id="content">
+        <div class="container-fluid">
+            <?php include("add-ons/nav.php"); ?>
+            <h2 class="mt-5 mb-4">Histórico de <?php echo ucfirst($nome); ?></h2>
+            <div class="row mt-4">
+                <table class="table table-bordered table-striped text-center">
+                    <thead class="table-dark">
                         <tr>
-                            <td><?php
-                                switch ($nome) {
-                                    case "temperatura":
-                                        echo formatNumber($dado["valor"]) . "°C";
-                                        break;
-                                    case "humidade":
-                                        echo formatNumber($dado["valor"]) . "%";
-                                        break;
-                                    case "ultrasonico":
-                                        echo formatNumber($dado["valor"]) . " cm";
-                                        break;
-                                    case "ventoinha":
-                                        echo formatNumber($dado["valor"]) . " RPM";
-                                        break;
-                                    case "servo":
-                                        echo formatNumber($dado["valor"]) . "º";
-                                        break;
-                                    case "led":
-                                        echo formatNumber($dado["valor"]);
-                                        break;
-                                } ?>
-                            </td>
-                            <td><?php echo $dado["hora"]; ?></td>
-                            <td>
-                                <?php
-                                switch ($nome) {
-                                    case "temperatura":
-                                        if ($dado["valor"] >= 40.00) {
-                                            echo "<span class='badge bg-danger'>Crítico</span>";
-                                        } elseif ($dado["valor"] > 20.00 && $dado["valor"] < 40.00) {
-                                            echo "<span class='badge bg-warning'>Elevado</span>";
-                                        } elseif ($dado["valor"] < 20.00 && $dado["valor"] > 0.00) {
-                                            echo "<span class='badge bg-primary'>Normal</span>";
-                                        } else {
-                                            echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
-                                        }
-                                        break;
-                                    case "humidade":
-                                        if ($dado["valor"] >= 80.00) {
-                                            echo "<span class='badge bg-danger'>Crítico</span>";
-                                        } elseif ($dado["valor"] > 50.00 && $dado["valor"] < 80.00) {
-                                            echo "<span class='badge bg-warning'>Elevado</span>";
-                                        } elseif ($dado["valor"] < 50.00 && $dado["valor"] > 0.00) {
-                                            echo "<span class='badge bg-primary'>Normal</span>";
-                                        } else {
-                                            echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
-                                        }
-                                        break;
-                                    case "ultrasonico":
-                                        if ($dado["valor"] >= 100.00) {
-                                            echo "<span class='badge bg-danger'>Muito Longe</span>";
-                                        } elseif ($dado["valor"] > 50.00 && $dado["valor"] < 100.00) {
-                                            echo "<span class='badge bg-danger'>Longe</span>";
-                                        } elseif ($dado["valor"] <= 50.00 && $dado["valor"] > 20.00) {
-                                            echo "<span class='badge bg-warning'>+/- Longe</span>";
-                                        } elseif ($dado["valor"] <= 20.00 && $dado["valor"] > 10.00) {
-                                            echo "<span class='badge bg-warning'>Perto</span>";
-                                        } elseif ($dado["valor"] <= 10.00 && $dado["valor"] > 0.00) {
-                                            echo "<span class='badge bg-success'>Muito Perto</span>";
-                                        } else {
-                                            echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
-                                        }
-                                        break;
-                                    case "ventoinha":
-                                        if ($dado["valor"] >= 5.00) {
-                                            echo "<span class='badge bg-success'>Ligado</span>";
-                                        } elseif ($dado["valor"] > 0.00 && $dado["valor"] < 5.00) {
-                                            echo "<span class='badge bg-danger'>Desligado</span>";
-                                        } else {
-                                            echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
-                                        }
-                                        break;
-                                    case "servo":
-                                        if ($dado["valor"] >= 80.00) {
-                                            echo "<span class='badge bg-success'>Fechado</span>";
-                                        } elseif ($dado["valor"] < 80.00) {
-                                            echo "<span class='badge bg-danger'>Aberto</span>";
-                                        } else {
-                                            echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
-                                        }
-                                        break;
-                                    case "led":
-                                        if ($dado["valor"] == 1) {
-                                            echo "<span class='badge bg-success'>Ligado</span>";
-                                        } elseif ($dado["valor"] == 0) {
-                                            echo "<span class='badge bg-danger'>Desligado</span>";
-                                        } else {
-                                            echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
-                                        }
-                                        break;
-                                }
-                                ?>
-                            </td>
+                            <th>Valor</th>
+                            <th>Data de Atualização</th>
+                            <th>Estado Alertas</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($historico as $dado): ?>
+                            <tr>
+                                <td><?php
+                                    switch ($nome) {
+                                        case "temperatura":
+                                            echo formatNumber($dado["valor"]) . "°C";
+                                            break;
+                                        case "humidade":
+                                            echo formatNumber($dado["valor"]) . "%";
+                                            break;
+                                        case "ultrasonico":
+                                            echo formatNumber($dado["valor"]) . " cm";
+                                            break;
+                                        case "ventoinha":
+                                            echo formatNumber($dado["valor"]) . " RPM";
+                                            break;
+                                        case "servo":
+                                            echo formatNumber($dado["valor"]) . "º";
+                                            break;
+                                        case "led":
+                                            echo formatNumber($dado["valor"]);
+                                            break;
+                                    } ?>
+                                </td>
+                                <td><?php echo $dado["hora"]; ?></td>
+                                <td>
+                                    <?php
+                                    switch ($nome) {
+                                        case "temperatura":
+                                            if ($dado["valor"] >= 40.00) {
+                                                echo "<span class='badge bg-danger'>Crítico</span>";
+                                            } elseif ($dado["valor"] > 20.00 && $dado["valor"] < 40.00) {
+                                                echo "<span class='badge bg-warning'>Elevado</span>";
+                                            } elseif ($dado["valor"] < 20.00 && $dado["valor"] > 0.00) {
+                                                echo "<span class='badge bg-primary'>Normal</span>";
+                                            } else {
+                                                echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
+                                            }
+                                            break;
+                                        case "humidade":
+                                            if ($dado["valor"] >= 80.00) {
+                                                echo "<span class='badge bg-danger'>Crítico</span>";
+                                            } elseif ($dado["valor"] > 50.00 && $dado["valor"] < 80.00) {
+                                                echo "<span class='badge bg-warning'>Elevado</span>";
+                                            } elseif ($dado["valor"] < 50.00 && $dado["valor"] > 0.00) {
+                                                echo "<span class='badge bg-primary'>Normal</span>";
+                                            } else {
+                                                echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
+                                            }
+                                            break;
+                                        case "ultrasonico":
+                                            if ($dado["valor"] >= 100.00) {
+                                                echo "<span class='badge bg-danger'>Muito Longe</span>";
+                                            } elseif ($dado["valor"] > 50.00 && $dado["valor"] < 100.00) {
+                                                echo "<span class='badge bg-danger'>Longe</span>";
+                                            } elseif ($dado["valor"] <= 50.00 && $dado["valor"] > 20.00) {
+                                                echo "<span class='badge bg-warning'>+/- Longe</span>";
+                                            } elseif ($dado["valor"] <= 20.00 && $dado["valor"] > 10.00) {
+                                                echo "<span class='badge bg-warning'>Perto</span>";
+                                            } elseif ($dado["valor"] <= 10.00 && $dado["valor"] > 0.00) {
+                                                echo "<span class='badge bg-success'>Muito Perto</span>";
+                                            } else {
+                                                echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
+                                            }
+                                            break;
+                                        case "ventoinha":
+                                            if ($dado["valor"] >= 5.00) {
+                                                echo "<span class='badge bg-success'>Ligado</span>";
+                                            } elseif ($dado["valor"] > 0.00 && $dado["valor"] < 5.00) {
+                                                echo "<span class='badge bg-danger'>Desligado</span>";
+                                            } else {
+                                                echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
+                                            }
+                                            break;
+                                        case "servo":
+                                            if ($dado["valor"] >= 80.00) {
+                                                echo "<span class='badge bg-success'>Fechado</span>";
+                                            } elseif ($dado["valor"] < 80.00) {
+                                                echo "<span class='badge bg-danger'>Aberto</span>";
+                                            } else {
+                                                echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
+                                            }
+                                            break;
+                                        case "led":
+                                            if ($dado["valor"] == 1) {
+                                                echo "<span class='badge bg-success'>Ligado</span>";
+                                            } elseif ($dado["valor"] == 0) {
+                                                echo "<span class='badge bg-danger'>Desligado</span>";
+                                            } else {
+                                                echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
+                                            }
+                                            break;
+                                    }
+                                    ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
 
+            </div>
+            <div class="text-end mt-4 mb-4">
+                <form action="dashboard.php" method="GET">
+                    <button class="btn btn-outline-dark">Voltar</button>
+                </form>
+            </div>
+            <?php include("add-ons/footer.php"); ?>
         </div>
-        <div class="text-end mt-4 mb-4">
-            <form action="dashboard.php" method="GET">
-                <button class="btn btn-outline-dark">Voltar</button>
-            </form>
-        </div>
-        <?php include("add-ons/footer.php"); ?>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
 </body>

@@ -38,6 +38,7 @@ body {
     margin-bottom: 10px;
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
+    z-index: 10;
 }
 
 .card .card-header {
