@@ -5,13 +5,14 @@
     object-fit: cover;
     z-index: -90;
     /* Mantém o fundo atrás de todos os elementos */
+    filter: blur(4px);
 }
 
 .AulaForm {
     width: 350px;
     padding: 25px;
     justify-self: center;
-    background-color: rgba(0, 0, 0, 0.062);
+    background-color: rgba(0, 0, 0, 0.4);
     /* Fundo semi-transparente */
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -25,14 +26,12 @@
 }
 
 .formImg {
-    width: 85%;
     margin-bottom: 15px;
-    filter: brightness(0) invert(1);
     /* Faz com que a imagem fique em tons de branco */
 }
 
 .formBtn {
-    background: linear-gradient(53deg, rgb(9, 61, 121) 25%, rgb(0, 110, 255) 100%);
+    background: linear-gradient(53deg, rgba(0, 0, 0, 0.7) 25%, rgba(0, 0, 0, 0.4) 100%);
     background-size: 200% 200%;
     padding: 10px 20px;
     border: none;

@@ -202,7 +202,7 @@ function formatNumber($number)
                                 }
                                 ?>
                             </td>
-                        </tr>                        
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -219,7 +219,7 @@ function formatNumber($number)
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody>                        
+                    <tbody>
                         <!-- Ventoinha -->
                         <tr>
                             <td>
