@@ -55,7 +55,7 @@ function formatNumber($number)
                 <h6 class="user-logo" id="user-name"><img src="assets/imagens/user.png" alt="Fotografia do utilizador" width="25"> <?php echo $_SESSION['username'] ?></h6>
             </div>
             <div id="logo-header" class="col-md-6">
-                <a href="https://www.ipleiria.pt/estg" target="_blank"><img class="estg" src="assets/imagens/estg.png"
+                <a href="https://www.ipleiria.pt/estg" target="_blank"><img class="estg" src="assets/imagens/ProduceShop.png"
                         alt="Politécnico de Leiria"></a>
             </div>
         </div>
