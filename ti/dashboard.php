@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['username'])) { // Verifica se o utilizador está logado
+if (!isset($_SESSION['loggedin'])) { // Verifica se o utilizador está logado
     header("refresh:5;url=auth/login.php");
     die("Acesso Restrito");
 }
@@ -26,7 +26,7 @@ $us = array( // Array associativa para armazenar os dados da ultrasonico
     "log" => file_get_contents("api/ultrasonico/log.txt")
 );
 
-function formatNumber($number)
+function formatNumber($number) // Formata o número para duas casas decimais e remove zeros à direita
 { // Formata o número para duas casas decimais e remove zeros à direita
     return rtrim(rtrim(number_format($number, 2, '.', ''), '0'), '.');
 }
@@ -65,7 +65,7 @@ function formatNumber($number)
                         <div class="card-block">
                             <h6 class="m-b-20"><strong><?php echo $temperatura["nome"]; ?></strong></h6>
                             <h3 class="text-right"><i class="fa-solid fa-temperature-half pulse"></i><span> <?php echo formatNumber($temperatura["valor"]); ?>ºC</span></h3>
-                            <p class="m-b-0"><strong>Last updatde: <?php echo $temperatura["hora"]; ?><span class="f-right"><a href="history.php?nome=temperatura&nometxt">Histórico</a></strong></span></p>
+                            <p class="m-b-0"><strong>Last updatde: <?php echo $temperatura["hora"]; ?><span class="f-right"><a href="history.php?nome=temperatura&nometxt">Histórico</a></span></strong></p>
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@ function formatNumber($number)
                         <div class="card-block">
                             <h6 class="m-b-20"><strong>Humidade</strong></h6>
                             <h3 class="text-right"><i class="fa-solid fa-droplet pulse"></i><span> 53%</span></h3>
-                            <p class="m-b-0"><strong>Last updatde: 2025/04/07 15:47:33<span class="f-right"><a href="history.php?nome=humidade&nometxt">Histórico</a></strong></span></p>
+                            <p class="m-b-0"><strong>Last updatde: 2025/04/07 15:47:33<span class="f-right"><a href="history.php?nome=humidade&nometxt">Histórico</a></span></strong></p>
                         </div>
                     </div>
                 </div>
@@ -83,7 +83,7 @@ function formatNumber($number)
                         <div class="card-block">
                             <h6 class="m-b-20"><strong><?php echo $us["nome"]; ?></strong></h6>
                             <h3 class="text-right"><i class="fa-solid fa-people-arrows pulse"></i><span> <?php echo formatNumber($us["valor"]); ?> cm</span></h3>
-                            <p class="m-b-0"><strong>Last updatde: <?php echo $us["hora"]; ?><span class="f-right"><a href="history.php?nome=ultrasonico&nometxt">Histórico</a></strong></span></p>
+                            <p class="m-b-0"><strong>Last updatde: <?php echo $us["hora"]; ?><span class="f-right"><a href="history.php?nome=ultrasonico&nometxt">Histórico</a></span></strong></p>
                         </div>
                     </div>
                 </div>
@@ -94,7 +94,7 @@ function formatNumber($number)
                         <div class="card-block">
                             <h6 class="m-b-20"><strong>Ventoinha</strong></h6>
                             <h3 class="text-right"><i class="fa-solid fa-fan spin"></i><span> 59 RPM</span></h3>
-                            <p class="m-b-0"><strong>Last updatde: 2025/04/07 15:47:33<span class="f-right"><a href="history.php?nome=ventoinha&nometxt">Histórico</a></strong></span></p>
+                            <p class="m-b-0"><strong>Last updatde: 2025/04/07 15:47:33<span class="f-right"><a href="history.php?nome=ventoinha&nometxt">Histórico</a></span></strong></p>
                         </div>
                     </div>
                 </div>
@@ -103,7 +103,7 @@ function formatNumber($number)
                         <div class="card-block">
                             <h6 class="m-b-20"><strong><?php echo $servo["nome"]; ?></strong></h6>
                             <h3 class="text-right"><i class="fa-solid fa-door-open pulse"></i><span> <?php echo formatNumber($servo["valor"]); ?>º</span></h3>
-                            <p class="m-b-0"><strong>Last updatde: 2025/04/07 15:47:33<span class="f-right"><a href="history.php?nome=servo&nometxt">Histórico</a></strong></span></p>
+                            <p class="m-b-0"><strong>Last updatde: 2025/04/07 15:47:33<span class="f-right"><a href="history.php?nome=servo&nometxt">Histórico</a></span></strong></p>
                         </div>
                     </div>
                 </div>
@@ -111,8 +111,8 @@ function formatNumber($number)
                     <div class="card bg-c-purple order-card">
                         <div class="card-block">
                             <h6 class="m-b-20"><strong>Led</strong></h6>
-                            <h3 class="text-right"><i class="fa-solid fa-sun spin_reverse"></i></i><span> Ligado</span></h3>
-                            <p class="m-b-0"><strong>Last updatde: 2025/04/07 15:47:33<span class="f-right"><a href="history.php?nome=led&nometxt">Histórico</a></strong></span></p>
+                            <h3 class="text-right"><i class="fa-solid fa-sun spin_reverse"></i><span> Ligado</span></h3>
+                            <p class="m-b-0"><strong>Last updatde: 2025/04/07 15:47:33<span class="f-right"><a href="history.php?nome=led&nometxt">Histórico</a></span></strong></p>
                         </div>
                     </div>
                 </div>

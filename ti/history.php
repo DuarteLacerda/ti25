@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['username'])) { // Verifica se o utilizador está logado
+if (!isset($_SESSION['loggedin'])) { // Verifica se o utilizador está logado
     header("refresh:5;url=auth/login.php");
     die("Acesso Restrito");
 }
@@ -16,14 +16,17 @@ $logFilePath = "api/{$nome}/log.txt"; // Caminho do ficheiro de log
 
 
 if (!$nome || !file_exists($logFilePath)) { // Verificar se o ficheiro existe
-    echo "Sensor não encontrado!\nSe não for redirecionado automaticamente, clique <a href='dashboard.php'>aqui</a>.";
     http_response_code(404); // Not Found
     header("refresh:5;url=dashboard.php");
+    die("Sensor não encontrado!\nSe não for redirecionado automaticamente, clique <a href='dashboard.php'>aqui</a>.");
 }
 
 // Ler o ficheiro e dividir em linhas
-$logData = file($logFilePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-$historico = [];
+$logData = file($logFilePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES); // Ler o ficheiro e ignorar linhas vazias
+if ($logData === false) { // Verificar se a leitura do ficheiro falhou
+    die("Erro ao ler o ficheiro de log!");
+}
+$historico = []; // Inicializar o array para armazenar os dados do histórico
 
 
 foreach ($logData as $linha) { // Processar cada linha do ficheiro
@@ -41,8 +44,7 @@ usort($historico, function ($a, $b) { // Ordenar por ordem decrescente (do mais 
     return strtotime($b["hora"]) - strtotime($a["hora"]);
 });
 
-// Manter apenas os primeiros 50 logs
-$historico = array_slice($historico, 0, 50);
+$historico = array_slice($historico, 0, 50); // Limitar a 50 entradas
 ?>
 
 <!doctype html>

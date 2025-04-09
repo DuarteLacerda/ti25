@@ -26,7 +26,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) { // Verificar se o 
         }
     }
 
-    if ($loginSuccess) {
+    if ($loginSuccess) { // Login bem-sucedido
+        $_SESSION['loggedin'] = true; // Definir a sessão como logada
         $_SESSION['username'] = $email;
         header('Location: ../dashboard.php');
         exit();
