@@ -41,6 +41,13 @@ body {
     z-index: 10;
 }
 
+.card a {
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid black !important;
+    background-color: transparent !important;
+}
+
 .card .card-header {
     padding: 20px 25px;
     border-bottom: none;
