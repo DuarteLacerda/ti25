@@ -80,22 +80,22 @@ $historico = array_slice($historico, 0, 50); // Limitar a 50 entradas
                                 <td><?php
                                     switch ($nome) {
                                         case "temperatura":
-                                            echo formatNumber($dado["valor"]) . "°C";
+                                            echo $dado["valor"] . "°C";
                                             break;
                                         case "humidade":
-                                            echo formatNumber($dado["valor"]) . "%";
+                                            echo $dado["valor"] . "%";
                                             break;
-                                        case "ultrasonico":
-                                            echo formatNumber($dado["valor"]) . " cm";
+                                        case "distancia":
+                                            echo $dado["valor"] . " cm";
                                             break;
                                         case "ventoinha":
-                                            echo formatNumber($dado["valor"]) . " RPM";
+                                            echo $dado["valor"] . " RPM";
                                             break;
-                                        case "servo":
-                                            echo formatNumber($dado["valor"]) . "º";
+                                        case "angulo":
+                                            echo $dado["valor"] . "º";
                                             break;
                                         case "led":
-                                            echo formatNumber($dado["valor"]);
+                                            echo $dado["valor"];
                                             break;
                                     } ?>
                                 </td>
@@ -125,7 +125,7 @@ $historico = array_slice($historico, 0, 50); // Limitar a 50 entradas
                                                 echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
                                             }
                                             break;
-                                        case "ultrasonico":
+                                        case "distancia":
                                             if ($dado["valor"] >= 100.00) {
                                                 echo "<span class='badge bg-danger'>Muito Longe</span>";
                                             } elseif ($dado["valor"] > 50.00 && $dado["valor"] < 100.00) {
@@ -149,7 +149,7 @@ $historico = array_slice($historico, 0, 50); // Limitar a 50 entradas
                                                 echo "<span class='badge bg-secondary'>Número negativo | Erro de sensor!!</span>";
                                             }
                                             break;
-                                        case "servo":
+                                        case "angulo":
                                             if ($dado["valor"] >= 80.00) {
                                                 echo "<span class='badge bg-success'>Fechado</span>";
                                             } elseif ($dado["valor"] < 80.00) {
