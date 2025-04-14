@@ -53,36 +53,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         die("Erro: O parâmetro 'nome' é obrigatório.\n");
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Verificar se os dados necessários estão presentes
     if (isset($_POST['valor']) && isset($_POST['nome'])) {
         $valor = $_POST['valor'];
         $hora = date('Y/m/d H:i:s');
         $nome = $_POST['nome'];
 
-        if (empty($valor) || empty($nome)) { // Verificar se o valor e o nome não estão vazios
-            http_response_code(400); // Bad Request
+        if (empty($valor) || empty($nome)) {
+            http_response_code(400);
             die("<p><strong>Erro:</strong> O valor e o nome não podem estar vazios.</p>");
         } else {
-            $log = $hora . ';' . $valor . "\n"; // Gerar o log no formato 'Hora: YYYY/MM/DD H:M:S; Valor: x;'
-
-            if (!file_exists("$nome")) { // Criar o diretório se não existir
-                mkdir("$nome", 0777, true);
+            if (!file_exists($nome)) {
+                mkdir($nome, 0777, true);
             }
 
-
-            // Escrever os dados nos arquivos correspondentes
             file_put_contents("$nome/valor.txt", $valor);
             file_put_contents("$nome/hora.txt", $hora);
             file_put_contents("$nome/nome.txt", $nome);
-            file_put_contents("$nome/log.txt", $log, FILE_APPEND); // Adiciona ao log em vez de substituir
 
+            // Formatar como 'hora;valor;' e terminar com \n (em aspas duplas)
+            $log = "$hora;$valor\n";
+
+            $logPath = "$nome/log.txt";
+            $logContent = "";
+
+            if (file_exists($logPath)) {
+                $lines = array_filter(explode("\n", trim(file_get_contents($logPath))));
+
+                // Se houver 50 ou mais linhas, remove a primeira (mais antiga)
+                if (count($lines) >= 50) {
+                    array_shift($lines);
+                }
+
+                // Rejunta tudo com \n no final
+                $logContent = implode("\n", $lines) . "\n";
+            }
+
+            // Adiciona o novo registo
+            $logContent .= $log;
+
+            file_put_contents($logPath, $logContent);
             die("<p><strong>Sucesso:</strong> Dados do sensor '$nome' inseridos com sucesso.</p>");
         }
     } else {
-        http_response_code(400); // Bad Request
+        http_response_code(400);
         die("<p><strong>Erro:</strong> Dados incompletos. Certifique-se de enviar 'valor', 'nome' e 'hora'.</p>");
     }
-} else {
-    http_response_code(403); // Forbidden
-    die("<p><strong>Erro:</strong>Acesso negado. Apenas os métodos GET e POST são aceitos.</p>");
 }

@@ -1,7 +1,9 @@
 # Pin Configuration Table
 
-| Component       | Pin Type       | Pin Number |
+|    Component     |    Pin Type    | Pin Number |
 |------------------|----------------|------------|
-| Ultrasonic Sensor| Trigger (TRIG) | D9         |
-| Ultrasonic Sensor| Echo (ECHO)    | D10        |
-| Servo Motor      | Signal (PWM)   | D11        |
+|      SHT3X       |      SDA       |     21     |
+|      SHT3X       |      SCL       |     22     |
+| Ultrasonic Sensor|    Trigger     |     D9     |
+| Ultrasonic Sensor|      Echo      |     D10    |
+| Servo Motor      |     Signal     |     D11    |

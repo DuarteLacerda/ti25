@@ -41,16 +41,16 @@ try:
             if "DIST:" in linha and "ANG:" in linha:
                 partes = linha.split()
                 distancia = float(partes[0].split(":")[1])
-                angulo = int(partes[1].split(":")[1])
+                cancela = int(partes[1].split(":")[1])
 
-                print(f"Distância: {distancia:.2f} cm | Servo: {angulo}°")
+                print(f"Distância: {distancia:.2f} cm | Servo: {cancela}°")
 
                 # Gerar a data e hora atual
                 now = datetime.now()
                 data_hora = now.strftime("%Y/%m/%d %H:%M:%S")
 
                 # Gravar no ficheiro de valor do servo (valor.txt)
-                escrever_no_valor("api/servo/valor.txt", angulo)
+                escrever_no_valor("api/servo/valor.txt", cancela)
 
                 # Gravar no ficheiro de valor do ultrassônico (valor.txt)
                 escrever_no_valor("api/ultrasonico/valor.txt", f"{distancia:.2f}")
@@ -62,7 +62,7 @@ try:
                 escrever_na_hora("api/ultrasonico/hora.txt", data_hora)
 
                 # Gravar no ficheiro de log do servo (log.txt)
-                escrever_no_log("api/servo/log.txt", data_hora, angulo)
+                escrever_no_log("api/servo/log.txt", data_hora, cancela)
 
                 # Gravar no ficheiro de log do ultrassônico (log.txt)
                 escrever_no_log("api/ultrasonico/log.txt", data_hora, f"{distancia:.2f}")

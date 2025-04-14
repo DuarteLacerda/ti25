@@ -18,7 +18,7 @@
                     <ul class="nav flex-column">
                         <li class="nav-item"><a class="nav-link" href="history.php?nome=temperatura&nometxt">Temperatura</a></li>
                         <li class="nav-item"><a class="nav-link" href="history.php?nome=humidade&nometxt">Humidade</a></li>
-                        <li class="nav-item"><a class="nav-link" href="history.php?nome=ultrasonico&nometxt">Ultrasonico</a></li>
+                        <li class="nav-item"><a class="nav-link" href="history.php?nome=distancia&nometxt">Distancia</a></li>
                     </ul>
                 </div>
             </li>
@@ -31,7 +31,7 @@
                 <div class="collapse ps-3" id="atuadoresCollapse">
                     <ul class="nav flex-column">
                         <li class="nav-item"><a class="nav-link" href="history.php?nome=ventoinha&nometxt">Ventoinha</a></li>
-                        <li class="nav-item"><a class="nav-link" href="history.php?nome=servo&nometxt">Cancela</a></li>
+                        <li class="nav-item"><a class="nav-link" href="history.php?nome=cancela&nometxt">Cancela</a></li>
                         <li class="nav-item"><a class="nav-link" href="history.php?nome=led&nometxt">LED</a></li>
                     </ul>
                 </div>
