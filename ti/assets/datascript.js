@@ -1,19 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Função para obter a parte inteira de um número
+  function parteInteira(valor) {
+    return Math.trunc(parseFloat(valor));
+  }
+
+  // Função para obter a parte decimal de um número e formatá-lo com 1 casa decimal
+  function parteDecimal(valor) {
+    const valorNum = parseFloat(valor);
+    const parteInteira = Math.trunc(valorNum);
+    const parteDecimal = valorNum - parteInteira;
+    const valorFinal = Math.round(parteDecimal * 10) / 10 + parteInteira;
+    return valorFinal.toFixed(1); // Retorna o valor com 1 casa decimal
+  }
+
+  // Função para atualizar os valores dos sensores
   async function atualizarSensores() {
     try {
-      const resposta = await fetch("api/data.php");
+      const resposta = await fetch("api/data.php"); // Obtém os dados da API
       const dados = await resposta.json();
 
       for (const sensor in dados) {
+        // Seleciona os elementos HTML correspondentes ao sensor
         const valorSpan = document.getElementById(`valor-${sensor}`);
         const horaSpan = document.getElementById(`hora-${sensor}`);
         const statuSpan = document.getElementById(`status-${sensor}`);
 
         if (valorSpan && horaSpan && statuSpan) {
-          let valorBruto = dados[sensor].valor.trim(); // valor original
-          let valorNum = parseFloat(valorBruto); // para comparação
-          let valorFormatado = valorBruto; // para mostrar
+          let valorBruto = dados[sensor].valor.trim(); // Valor original do sensor
+          let valorNum = parseFloat(valorBruto); // Valor numérico para comparação
+          let valorFormatado = valorBruto; // Valor formatado para exibição
 
+          // Seleciona os elementos na tabela de sensores
           const valorSpanTable = document.querySelector(
             `#tabela-sensores td span#valor-${sensor}`
           );
@@ -21,15 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
             `#tabela-sensores td span#hora-${sensor}`
           );
 
-          console.log(
-            "Sensor:",
-            sensor,
-            "Elementos:",
-            valorSpan,
-            horaSpan,
-            statuSpan
-          ); // Adicionado para depuração
-
+          // Verifica o tipo de sensor e aplica lógica específica
           switch (sensor) {
             case "led":
               const estado = valorBruto == "1" ? "Ligado" : "Desligado";
@@ -46,7 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
               }
               break;
             case "temperatura":
-              valorFormatado = `${valorBruto}ºC`;
+              valorFormatado = `${parteDecimal(valorBruto)}ºC`;
+              // Define o estado com base no valor da temperatura
               if (valorNum > 40) {
                 statuSpan.innerHTML =
                   "<span class='badge bg-danger'>Muito Alta</span>";
@@ -65,7 +75,8 @@ document.addEventListener("DOMContentLoaded", () => {
               }
               break;
             case "humidade":
-              valorFormatado = `${valorBruto}%`;
+              valorFormatado = `${parteDecimal(valorBruto)}%`;
+              // Define o estado com base no valor da humidade
               if (valorNum > 89) {
                 statuSpan.innerHTML =
                   "<span class='badge bg-danger'>Alta</span>";
@@ -82,12 +93,11 @@ document.addEventListener("DOMContentLoaded", () => {
               break;
             case "cancela":
               valorFormatado = valorBruto == "50" ? "Aberta" : "Fechada";
+              // Define o estado da cancela com base no valor
               if (valorNum >= 140 && valorNum <= 180) {
-                // Cancela fechada (em torno de 160)
                 statuSpan.innerHTML =
                   "<span class='badge bg-danger'>Fechada</span>";
               } else if (valorNum >= 30 && valorNum <= 70) {
-                // Cancela aberta (em torno de 50)
                 statuSpan.innerHTML =
                   "<span class='badge bg-success'>Aberta</span>";
               } else if (valorNum < 0) {
@@ -99,7 +109,8 @@ document.addEventListener("DOMContentLoaded", () => {
               }
               break;
             case "distancia":
-              valorFormatado = `${valorBruto} cm`;
+              valorFormatado = `${parteDecimal(valorBruto)} cm`;
+              // Define o estado com base na distância
               if (valorNum < 11 && valorNum > 0) {
                 statuSpan.innerHTML =
                   "<span class='badge bg-success'>Perto</span>";
@@ -118,7 +129,8 @@ document.addEventListener("DOMContentLoaded", () => {
               }
               break;
             case "ventoinha":
-              valorFormatado = `${valorBruto} RPM`;
+              valorFormatado = `${parteInteira(valorBruto)} RPM`;
+              // Define o estado com base na velocidade da ventoinha
               if (valorNum > 2000) {
                 statuSpan.innerHTML =
                   "<span class='badge bg-danger'>Alto</span>";
@@ -132,6 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
               break;
           }
 
+          // Atualiza os valores e horários no HTML
           valorSpan.textContent = ` ${valorFormatado}`;
           horaSpan.textContent = dados[sensor].hora;
           valorSpanTable.textContent = ` ${valorBruto}`;
@@ -144,8 +157,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const urlParams = new URLSearchParams(window.location.search);
-  const nomeSensor = urlParams.get("nome");
+  const nomeSensor = urlParams.get("nome"); // Obtém o nome do sensor da URL
 
+  // Função para carregar o histórico de um sensor
   async function carregarHistorico() {
     try {
       const resposta = await fetch(`api/logs.php?sensor=${nomeSensor}`);
@@ -165,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const [dataHora, valor] = linha.split(";");
         const tr = document.createElement("tr");
 
-        // Aqui podes adaptar os alertas com base no tipo de sensor
+        // Define alertas com base no tipo de sensor
         let alerta = "";
         const valorNum = parseFloat(valor);
 
@@ -240,6 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
             break;
         }
 
+        // Adiciona a linha ao histórico
         tr.innerHTML = `
           <td>${valor}</td>
           <td>${dataHora}</td>
@@ -252,6 +267,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  setInterval(carregarHistorico, 10);
-  setInterval(atualizarSensores, 10);
+  // Atualiza os sensores a cada 1 segundo
+  setInterval(atualizarSensores, 1000);
+  // Atualiza o histórico a cada 3 segundos, começando após 1 segundo
+  setTimeout(() => setInterval(carregarHistorico, 3000), 1000);
 });

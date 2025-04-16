@@ -60,11 +60,66 @@
     --accent-950: #05140d;
 }
 
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--background-50);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    overflow: hidden;
+    /* Impede o scroll no preloader */
+}
+
+.loader {
+    --s: 15px;
+    width: calc(var(--s) * 2.33);
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: space-between;
+}
+
+.loader::before,
+.loader::after {
+    content: "";
+    width: var(--s);
+    --_g: no-repeat radial-gradient(farthest-side, #000 94%, #0000);
+    background: var(--_g) top, var(--_g) bottom;
+    background-size: 100% var(--s);
+    transform-origin: 50% calc(100% - var(--s) / 2);
+    animation: l30 1s infinite;
+}
+
+.loader::after {
+    transform-origin: 50% calc(var(--s) / 2);
+}
+
+@keyframes l30 {
+
+    70%,
+    100% {
+        transform: rotate(-270deg);
+    }
+}
+
+#site-content {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     scroll-behavior: smooth;
     /* Faz com que a rolagem da página seja suave */
     overflow-x: hidden;
+    user-select: none;
 }
 
 #sidebar {
@@ -153,7 +208,7 @@ footer {
     bottom: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     #sidebar {
         transform: translateX(-100%);
         transition: transform 0.3s ease;

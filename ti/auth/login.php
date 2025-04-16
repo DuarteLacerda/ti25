@@ -50,8 +50,6 @@ if (isset($_POST['username']) && isset($_POST['password'])) { // Verificar se o 
     <link rel="stylesheet" href="../assets/style.css">
     <link rel="stylesheet" href="../assets/login.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <script src="assets/script.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 </head>
 
 <body>
@@ -65,25 +63,49 @@ if (isset($_POST['username']) && isset($_POST['password'])) { // Verificar se o 
         exit();
     }
     ?>
-    <img class="background" src="../assets/imagens/bg.jpeg" alt="Background">
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <form class="AulaForm" action="login.php" method="post">
-            <a href="login.php"><img class="img-fluid formImg" src="../assets/imagens/ProduceShop.png" alt="ESTG" width="350"></a>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" required>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div>
-            <button type="submit" class="formBtn" style="color: white;">Submit</button>
-        </form>
+    <div id="preloader" class="loader-container">
+        <div class="loader"></div>
     </div>
+    <div id="site-content">
+        <img class="background" src="../assets/imagens/bg.jpeg" alt="Background">
+        <div class="container d-flex justify-content-center align-items-center vh-100">
+            <form class="AulaForm" action="login.php" method="post">
+                <a href="login.php"><img class="img-fluid formImg" src="../assets/imagens/ProduceShop.png" alt="ESTG" width="350"></a>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                </div>
+                <button type="submit" class="formBtn" style="color: white;">Submit</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        window.onload = function() {
+            const preloader = document.getElementById('preloader');
+            const siteContent = document.getElementById('site-content');
+
+            if (preloader && siteContent) {
+                setTimeout(() => {
+                    preloader.style.opacity = 0;
+                    siteContent.style.visibility = 'visible';
+                    siteContent.style.opacity = 1;
+
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                    }, 500); // Espera pela transição de opacidade do preloader
+                }, 1500); // Espera antes de ocultar o preloader
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 </body>
 
 </html>

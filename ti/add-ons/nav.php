@@ -1,4 +1,4 @@
-<button class="btn btn-outline-dark d-md-none" id="sidebarToggle">☰</button>
+<button class="btn btn-outline-dark d-lg-none" id="sidebarToggle">☰</button>
 
 <nav id="sidebar" class="bg-light">
     <div class="p-3">
