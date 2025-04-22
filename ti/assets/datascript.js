@@ -21,16 +21,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
       for (const sensor in dados) {
         // Seleciona os elementos HTML correspondentes ao sensor
+        const nomeSpan = document.getElementById(`nome-${sensor}`);
         const valorSpan = document.getElementById(`valor-${sensor}`);
         const horaSpan = document.getElementById(`hora-${sensor}`);
         const statuSpan = document.getElementById(`status-${sensor}`);
 
-        if (valorSpan && horaSpan && statuSpan) {
+        if (valorSpan && horaSpan && statuSpan && nomeSpan) {
           let valorBruto = dados[sensor].valor.trim(); // Valor original do sensor
           let valorNum = parseFloat(valorBruto); // Valor numérico para comparação
           let valorFormatado = valorBruto; // Valor formatado para exibição
 
           // Seleciona os elementos na tabela de sensores
+          const nomeSpanTable = document.querySelector(
+            `#tabela-sensores td span#nome-${sensor}`
+          );
+
           const valorSpanTable = document.querySelector(
             `#tabela-sensores td span#valor-${sensor}`
           );
@@ -145,8 +150,10 @@ document.addEventListener("DOMContentLoaded", () => {
           }
 
           // Atualiza os valores e horários no HTML
+          nomeSpan.textContent = dados[sensor].nome.charAt(0).toUpperCase() + dados[sensor].nome.slice(1);
           valorSpan.textContent = ` ${valorFormatado}`;
           horaSpan.textContent = dados[sensor].hora;
+          nomeSpanTable.textContent = dados[sensor].nome.charAt(0).toUpperCase() + dados[sensor].nome.slice(1);
           valorSpanTable.textContent = ` ${valorBruto}`;
           horaSpanTable.textContent = dados[sensor].hora;
         }

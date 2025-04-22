@@ -3,6 +3,7 @@ function loadSensorData($nome)
 {
     $base = "$nome/";
     return [
+        "nome" => file_get_contents($base . "nome.txt"),
         "valor" => file_get_contents($base . "valor.txt"),
         "hora" => file_get_contents($base . "hora.txt")
     ];
