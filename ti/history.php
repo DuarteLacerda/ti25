@@ -70,8 +70,8 @@ $nome = $_GET['nome']; // Obter o nome passado na URL
 
                     setTimeout(() => {
                         preloader.style.display = 'none';
-                    }, 500); // Espera pela transição de opacidade do preloader
-                }, 1500); // Espera antes de ocultar o preloader
+                    }, 1500); // Espera pela transição de opacidade do preloader
+                }, 3500); // Espera antes de ocultar o preloader
             }
         };
     </script>

@@ -118,13 +118,13 @@ document.addEventListener("DOMContentLoaded", () => {
               // Define o estado com base na distância
               if (valorNum < 11 && valorNum > 0) {
                 statuSpan.innerHTML =
-                  "<span class='badge bg-success'>Perto</span>";
+                  "<span class='badge bg-success'>Distancia Curta</span>";
               } else if (valorNum > 10 && valorNum < 20) {
                 statuSpan.innerHTML =
-                  "<span class='badge bg-warning text-dark'>+/- Perto</span>";
+                  "<span class='badge bg-warning text-dark'>Distancia Média</span>";
               } else if (valorNum > 20 && valorNum < 30) {
                 statuSpan.innerHTML =
-                  "<span class='badge bg-warning text-dark'>Longe</span>";
+                  "<span class='badge bg-warning text-dark'>Distancia Longa</span>";
               } else if (valorNum > 30) {
                 statuSpan.innerHTML =
                   "<span class='badge bg-primary'>Muito Longe</span>";
@@ -150,10 +150,14 @@ document.addEventListener("DOMContentLoaded", () => {
           }
 
           // Atualiza os valores e horários no HTML
-          nomeSpan.textContent = dados[sensor].nome.charAt(0).toUpperCase() + dados[sensor].nome.slice(1);
+          nomeSpan.textContent =
+            dados[sensor].nome.charAt(0).toUpperCase() +
+            dados[sensor].nome.slice(1);
           valorSpan.textContent = ` ${valorFormatado}`;
           horaSpan.textContent = dados[sensor].hora;
-          nomeSpanTable.textContent = dados[sensor].nome.charAt(0).toUpperCase() + dados[sensor].nome.slice(1);
+          nomeSpanTable.textContent =
+            dados[sensor].nome.charAt(0).toUpperCase() +
+            dados[sensor].nome.slice(1);
           valorSpanTable.textContent = ` ${valorBruto}`;
           horaSpanTable.textContent = dados[sensor].hora;
         }
@@ -217,14 +221,15 @@ document.addEventListener("DOMContentLoaded", () => {
             break;
           case "distancia":
             if (valorNum < 11 && valorNum > 0) {
-              alerta = "<span class='badge bg-success'>Perto</span>";
+              alerta = "<span class='badge bg-success'>Distancia Curta</span>";
             } else if (valorNum > 10 && valorNum < 20) {
               alerta =
-                "<span class='badge bg-warning text-dark'>+/- Perto</span>";
+                "<span class='badge bg-warning text-dark'>Distancia Média</span>";
             } else if (valorNum > 20 && valorNum < 30) {
-              alerta = "<span class='badge bg-warning text-dark'>Longe</span>";
+              alerta =
+                "<span class='badge bg-warning text-dark'>Distancia Longa</span>";
             } else if (valorNum > 30) {
-              alerta = "<span class='badge bg-primary'>Muito Longe</span>";
+              alerta = "<span class='badge bg-primary'>Muito Longa</span>";
             } else if (valorNum < 0) {
               alerta = "<span class='badge bg-danger'>Erro no sensor</span>";
             }
