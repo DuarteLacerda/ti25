@@ -66,33 +66,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 mkdir($nome, 0777, true);
             }
 
-            file_put_contents("$nome/valor.txt", $valor);
-            file_put_contents("$nome/hora.txt", $hora);
-            file_put_contents("$nome/nome.txt", $nome);
-
-            // Formatar como 'hora;valor;' e terminar com \n (em aspas duplas)
-            $log = "$hora;$valor\n";
-
+            $valorPath = "$nome/valor.txt";
+            $horaPath = "$nome/hora.txt";
+            $nomePath = "$nome/nome.txt";
             $logPath = "$nome/log.txt";
-            $logContent = "";
 
-            if (file_exists($logPath)) {
-                $lines = array_filter(explode("\n", trim(file_get_contents($logPath))));
+            $criarLog = true;
 
-                // Se houver 50 ou mais linhas, remove a primeira (mais antiga)
-                if (count($lines) >= 50) {
-                    array_shift($lines);
+            // Verifica se já existe um valor anterior
+            if (file_exists($valorPath)) {
+                $valorAnterior = trim(file_get_contents($valorPath));
+                // Só cria log se o valor for diferente
+                if ($valorAnterior === $valor) {
+                    $criarLog = false;
                 }
-
-                // Rejunta tudo com \n no final
-                $logContent = implode("\n", $lines) . "\n";
             }
 
-            // Adiciona o novo registo
-            $logContent .= $log;
+            // Atualiza os ficheiros
+            file_put_contents($valorPath, $valor);
+            file_put_contents($horaPath, $hora);
+            file_put_contents($nomePath, $nome);
 
-            file_put_contents($logPath, $logContent);
-            die("<p><strong>Sucesso:</strong> Dados do sensor '$nome' inseridos com sucesso.</p>");
+            if ($criarLog) {
+                // Formatar como 'hora;valor\n'
+                $log = "$hora;$valor\n";
+                $logContent = "";
+
+                if (file_exists($logPath)) {
+                    $lines = array_filter(explode("\n", trim(file_get_contents($logPath))));
+                    // Se houver 50 ou mais linhas, remove a primeira (mais antiga)
+                    if (count($lines) >= 50) {
+                        array_shift($lines);
+                    }
+                    $logContent = implode("\n", $lines) . "\n";
+                }
+
+                $logContent .= $log;
+                file_put_contents($logPath, $logContent);
+            }
+
+            die("<p><strong>Sucesso:</strong> Dados do sensor '$nome' atualizados com sucesso.</p>");
         }
     } else {
         http_response_code(400);

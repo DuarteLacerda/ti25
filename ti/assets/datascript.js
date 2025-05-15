@@ -46,16 +46,28 @@ document.addEventListener("DOMContentLoaded", () => {
           // Verifica o tipo de sensor e aplica lógica específica
           switch (sensor) {
             case "led":
-              const estado = valorBruto == "1" ? "Ligado" : "Desligado";
+              if (valorBruto == "3") {
+                estado = "Vermelho";
+              }
+              if (valorBruto == "2") {
+                estado = "Amarelo";
+              }
+              if (valorBruto == "1") {
+                estado = "Verde";
+              }
               valorFormatado = estado;
               switch (estado) {
-                case "Ligado":
+                case "Vermelho":
+                  statuSpan.innerHTML =
+                    "<span class='badge bg-danger'>Ligado</span>";
+                  break;
+                case "Amarelo":
+                  statuSpan.innerHTML =
+                    "<span class='badge bg-warning text-dark'>Ligado</span>";
+                  break;
+                case "Verde":
                   statuSpan.innerHTML =
                     "<span class='badge bg-success'>Ligado</span>";
-                  break;
-                case "Desligado":
-                  statuSpan.innerHTML =
-                    "<span class='badge bg-primary'>Alto</span>";
                   break;
               }
               break;
@@ -253,12 +265,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             break;
           case "led":
-            if (valorNum == "1") {
+            if (valorNum == "3") {
+              alerta = "<span class='badge bg-danger'>Ligado</span>";
+            } else if (valorNum == "1") {
               alerta = "<span class='badge bg-success'>Ligado</span>";
-            } else if (valorNum == "0") {
-              alerta = "<span class='badge bg-primary'>Desligado</span>";
+            } else if (valorNum == "2") {
+              alerta = "<span class='badge bg-warning text-dark'>Ligado</span>";
             } else {
-              alerta = "<span class='badge bg-danger'>Erro no sensor</span>";
+              alerta = "<span class='badge bg-primary'>Desligado</span>";
             }
             break;
           default:
@@ -267,6 +281,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Adiciona a linha ao histórico
+
         tr.innerHTML = `
           <td>${valor}</td>
           <td>${dataHora}</td>

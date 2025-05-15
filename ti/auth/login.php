@@ -29,6 +29,9 @@ if (isset($_POST['username']) && isset($_POST['password'])) { // Verificar se o 
     if ($loginSuccess) { // Login bem-sucedido
         $_SESSION['loggedin'] = true; // Definir a sessão como logada
         $_SESSION['username'] = $email;
+        if (isset($_POST['remember'])) {
+            setcookie('username', $email, time() + (86400 * 30), "/"); // 30 dias
+        }
         header('Location: ../dashboard.php');
         exit();
     } else {
@@ -54,6 +57,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) { // Verificar se o 
 
 <body>
     <?php
+    $email_cookie = isset($_COOKIE['username']) ? $_COOKIE['username'] : '';
     if (isset($_SESSION['error'])) {
         echo "<script>
                 alert('{$_SESSION['error']}');
@@ -73,15 +77,15 @@ if (isset($_POST['username']) && isset($_POST['password'])) { // Verificar se o 
                 <a href="login.php"><img class="img-fluid formImg" src="../assets/imagens/ProduceShop.png" alt="ESTG" width="350"></a>
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" required>
+                    <input type="text" class="form-control" id="username" name="username" value="<?= htmlspecialchars($_COOKIE['username'] ?? '') ?>" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" name="password" required>
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                    <label class="form-check-label" for="remember">Check me out</label>
                 </div>
                 <button type="submit" class="formBtn" style="color: white;">Submit</button>
             </form>

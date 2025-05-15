@@ -47,7 +47,7 @@
         </ul>
         <div class="hr"></div>
         <div class="nav-img">
-            <a href="https://www.ipleiria.pt/curso/licenciatura-em-engenharia-informatica/" target="_blank"><img src="assets/imagens/estg.png" alt="Logo" class="img-fluid"></a>
+            <a href="https://www.ipleiria.pt/" target="_blank"><img src="assets/imagens/estg.png" alt="Logo" class="img-fluid"></a>
         </div>
     </div>
 </nav>

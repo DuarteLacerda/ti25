@@ -10,6 +10,11 @@ function formatNumber($num) // Formata o número para duas casas decimais e remo
     return rtrim(rtrim(number_format($num, 2, '.', ''), '0'), '.');
 }
 
+if ($_SESSION['username'] !== 'admin') { // Verifica se o utilizador é administrador
+    header("refresh:3;url=dashboard.php");
+    die("Acesso restrito. <a href='dashboard.php'>Clique aqui</a> se não for redirecionado automaticamente.");
+}
+
 $nome = $_GET['nome']; // Obter o nome passado na URL
 ?>
 
