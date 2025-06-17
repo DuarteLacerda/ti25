@@ -38,47 +38,90 @@ if (!isset($_SESSION['loggedin'])) { // Verifica se o utilizador está logado
                     </div>
                 </div>
                 <div class="row mt-2 mb-2">
-                    <div class="col-md-4 col-sm-12 mb-2">
-                        <div class="card bg-c-green order-card">
-                            <div class="card-block">
-                                <h6 class="m-b-20"><strong><span id="nome-temperatura"></span></strong></h6>
-                                <h3 class="text-right"><i class="fa-solid fa-temperature-half pulse"></i><span id="valor-temperatura"></span></h3>
-                                <p class="m-b-0"><strong>Ultima atualização: <span id="hora-temperatura"></span><span class="f-right">
-                                            <button onclick="location.href='history.php?nome=temperatura&nometxt'" class="btn btn-outline-dark text-decoration-none fw-bold">Histórico
-                                            </button></span></strong></p>
+                    <?php
+                    // Verifica se o utilizador é um administrador
+                    if ($_SESSION['permission'] === 'admin' || $_SESSION['permission'] === 'mod') { ?>
+                        <div class="col-md-4 col-sm-12 mb-2">
+                            <div class="card bg-c-green order-card">
+                                <div class="card-block">
+                                    <h6 class="m-b-20"><strong><span id="nome-temperatura"></span></strong></h6>
+                                    <h3 class="text-right"><i class="fa-solid fa-temperature-half pulse"></i><span id="valor-temperatura"></span>
+                                        <?php
+                                        // Verifica se o utilizador é um administrador
+                                        if ($_SESSION['permission'] === 'admin') { ?>
+                                            <span class="f-right">
+                                                <button type="submit" class="btn btn-outline-dark text-decoration-none fw-bold"><span>Deligado</span>
+                                                </button></span>
+                                        <?php } ?>
+                                    </h3>
+                                    <p class="m-b-0"><strong>Ultima atualização: <span id="hora-temperatura"></span><span class="f-right">
+                                                <button onclick="location.href='history.php?nome=temperatura&nometxt'" class="btn btn-outline-dark text-decoration-none fw-bold">Histórico
+                                                </button></span></strong></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4 col-sm-12 mb-2">
-                        <div class="card bg-c-blue order-card">
-                            <div class="card-block">
-                                <h6 class="m-b-20"><strong><span id="nome-distancia"></span></strong></h6>
-                                <h3 class="text-right"><i class="fa-solid fa-people-arrows pulse"></i><span id="valor-distancia"></span></h3>
-                                <p class="m-b-0"><strong>Ultima atualização: <span id="hora-distancia"></span><span class="f-right">
-                                            <button onclick="location.href='history.php?nome=distancia&nometxt'" class="btn btn-outline-dark text-decoration-none fw-bold">Histórico
-                                            </button></span></strong></p>
+                        <div class="col-md-4 col-sm-12 mb-2">
+                            <div class="card bg-c-blue order-card">
+                                <div class="card-block">
+                                    <h6 class="m-b-20"><strong><span id="nome-distancia"></span></strong></h6>
+                                    <h3 class="text-right"><i class="fa-solid fa-people-arrows pulse"></i><span id="valor-distancia"></span>
+                                        <?php
+                                        // Verifica se o utilizador é um administrador
+                                        if ($_SESSION['permission'] === 'admin') { ?>
+                                            <span class="f-right">
+                                                <button type="submit" class="btn btn-outline-dark text-decoration-none fw-bold"><span>Deligado</span>
+                                                </button></span>
+                                        <?php } ?>
+                                    </h3>
+                                    <p class="m-b-0"><strong>Ultima atualização: <span id="hora-distancia"></span><span class="f-right">
+                                                <button onclick="location.href='history.php?nome=distancia&nometxt'" class="btn btn-outline-dark text-decoration-none fw-bold">Histórico
+                                                </button></span></strong></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4 col-sm-12 mb-2">
-                        <div class="card bg-c-yellow order-card">
-                            <div class="card-block">
-                                <h6 class="m-b-20"><strong><span id="nome-humidade"></span></strong></h6>
-                                <h3 class="text-right"><i class="fa-solid fa-droplet pulse"></i><span id="valor-humidade"></span></h3>
-                                <p class="m-b-0"><strong>Ultima atualização: <span id="hora-humidade"></span><span class="f-right">
-                                            <button onclick="location.href='history.php?nome=humidade&nometxt'" class="btn btn-outline-dark text-decoration-none fw-bold">Histórico
-                                            </button></span></strong></p>
+                        <div class="col-md-4 col-sm-12 mb-2">
+                            <div class="card bg-c-yellow order-card">
+                                <div class="card-block">
+                                    <h6 class="m-b-20"><strong><span id="nome-humidade"></span></strong></h6>
+                                    <h3 class="text-right"><i class="fa-solid fa-droplet pulse"></i><span id="valor-humidade"></span>
+                                        <?php
+                                        // Verifica se o utilizador é um administrador
+                                        if ($_SESSION['permission'] === 'admin') { ?>
+                                            <span class="f-right">
+                                                <button type="submit" class="btn btn-outline-dark text-decoration-none fw-bold"><span>Deligado</span>
+                                                </button></span>
+                                        <?php } ?>
+                                    </h3>
+                                    <p class="m-b-0"><strong>Ultima atualização: <span id="hora-humidade"></span><span class="f-right">
+                                                <button onclick="location.href='history.php?nome=humidade&nometxt'" class="btn btn-outline-dark text-decoration-none fw-bold">Histórico
+                                                </button></span>
+                                        </strong></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php } ?>
                     <div class="col-md-4 col-sm-12 mb-2">
                         <div class="card bg-c-orange order-card">
                             <div class="card-block">
                                 <h6 class="m-b-20"><strong><span id="nome-ventoinha"></span></strong></h6>
-                                <h3 class="text-right"><i class="fa-solid fa-fan spin"></i><span id="valor-ventoinha"></span></h3>
-                                <p class="m-b-0"><strong>Ultima atualização: <span id="hora-ventoinha"></span><span class="f-right">
-                                            <button onclick="location.href='history.php?nome=ventoinha&nometxt'" class="btn btn-outline-dark text-decoration-none fw-bold">Histórico
-                                            </button></span></strong></p>
+                                <h3 class="text-right"><i class="fa-solid fa-fan spin"></i><span id="valor-ventoinha"></span>
+                                    <?php
+                                    // Verifica se o utilizador é um administrador
+                                    if ($_SESSION['permission'] === 'admin') { ?>
+                                        <span class="f-right">
+                                            <button type="submit" class="btn btn-outline-dark text-decoration-none fw-bold"><span>Deligado</span>
+                                            </button></span>
+                                    <?php } ?>
+                                </h3>
+                                <p class="m-b-0"><strong>Ultima atualização: <span id="hora-ventoinha"></span>
+                                        <?php
+                                        // Verifica se o utilizador é um administrador
+                                        if ($_SESSION['permission'] === 'admin' || $_SESSION['permission'] === 'mod') { ?>
+                                            <span class="f-right">
+                                                <button onclick="location.href='history.php?nome=ventoinha&nometxt'" class="btn btn-outline-dark text-decoration-none fw-bold">Histórico
+                                                </button></span>
+                                        <?php } ?>
+                                    </strong></p>
                             </div>
                         </div>
                     </div>
@@ -86,10 +129,24 @@ if (!isset($_SESSION['loggedin'])) { // Verifica se o utilizador está logado
                         <div class="card bg-c-pink order-card">
                             <div class="card-block">
                                 <h6 class="m-b-20"><strong><span id="nome-cancela"></span></strong></h6>
-                                <h3 class="text-right"><i class="fa-solid fa-door-open pulse"></i><span id="valor-cancela"></span></h3>
-                                <p class="m-b-0"><strong>Ultima atualização: <span id="hora-cancela"></span><span class="f-right">
-                                            <button onclick="location.href='history.php?nome=cancela&nometxt'" class="btn btn-outline-dark text-decoration-none fw-bold">Histórico
-                                            </button></span></strong></p>
+                                <h3 class="text-right"><i class="fa-solid fa-door-open pulse"></i><span id="valor-cancela"></span>
+                                    <?php
+                                    // Verifica se o utilizador é um administrador
+                                    if ($_SESSION['permission'] === 'admin') { ?>
+                                        <span class="f-right">
+                                            <button type="submit" class="btn btn-outline-dark text-decoration-none fw-bold"><span>Deligado</span>
+                                            </button></span>
+                                    <?php } ?>
+                                </h3>
+                                <p class="m-b-0"><strong>Ultima atualização: <span id="hora-cancela"></span>
+                                        <?php
+                                        // Verifica se o utilizador é um administrador
+                                        if ($_SESSION['permission'] === 'admin' || $_SESSION['permission'] === 'mod') { ?>
+                                            <span class="f-right">
+                                                <button onclick="location.href='history.php?nome=cancela&nometxt'" class="btn btn-outline-dark text-decoration-none fw-bold">Histórico
+                                                </button></span>
+                                        <?php } ?>
+                                    </strong></p>
                             </div>
                         </div>
                     </div>
@@ -97,10 +154,24 @@ if (!isset($_SESSION['loggedin'])) { // Verifica se o utilizador está logado
                         <div class="card bg-c-purple order-card">
                             <div class="card-block">
                                 <h6 class="m-b-20"><strong><span id="nome-led"></span></strong></h6>
-                                <h3 class="text-right"><i class="fa-solid fa-sun spin_reverse"></i><span id="valor-led"></span></h3>
-                                <p class="m-b-0"><strong>Ultima atualização: <span id="hora-led"></span><span class="f-right">
-                                            <button onclick="location.href='history.php?nome=led&nometxt'" class="btn btn-outline-dark text-decoration-none fw-bold">Histórico
-                                            </button></span></strong></p>
+                                <h3 class="text-right"><i class="fa-solid fa-sun spin_reverse"></i><span id="valor-led"></span>
+                                    <?php
+                                    // Verifica se o utilizador é um administrador
+                                    if ($_SESSION['permission'] === 'admin') { ?>
+                                        <span class="f-right">
+                                            <button type="submit" class="btn btn-outline-dark text-decoration-none fw-bold"><span>Deligado</span>
+                                            </button></span>
+                                    <?php } ?>
+                                </h3>
+                                <p class="m-b-0"><strong>Ultima atualização: <span id="hora-led"></span>
+                                        <?php
+                                        // Verifica se o utilizador é um administrador
+                                        if ($_SESSION['permission'] === 'admin' || $_SESSION['permission'] === 'mod') { ?>
+                                            <span class="f-right">
+                                                <button onclick="location.href='history.php?nome=led&nometxt'" class="btn btn-outline-dark text-decoration-none fw-bold">Histórico
+                                                </button></span>
+                                        <?php } ?>
+                                    </strong></p>
                             </div>
                         </div>
                     </div>
@@ -117,29 +188,56 @@ if (!isset($_SESSION['loggedin'])) { // Verifica se o utilizador está logado
                                     <th>Status</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <!-- Temperatura -->
-                                <tr onclick="location.href='history.php?nome=temperatura&nometxt'" style="cursor: pointer;">
-                                    <td>🌡️ <span id="nome-temperatura"></span></td>
-                                    <td><span id="valor-temperatura"></span>ºC</td>
-                                    <td><span id="hora-temperatura"></span></td>
-                                    <td><span id="status-temperatura"></span></td>
-                                </tr>
-                                <!-- Distancia -->
-                                <tr onclick="location.href='history.php?nome=distancia&nometxt'" style="cursor: pointer;">
-                                    <td>📏 <span id="nome-distancia"></span></td>
-                                    <td><span id="valor-distancia"></span> cm</td>
-                                    <td><span id="hora-distancia"></span></td>
-                                    <td><span id="status-distancia"></span></td>
-                                </tr>
-                                <!-- Humidade -->
-                                <tr onclick="location.href='history.php?nome=humidade&nometxt'" style="cursor: pointer;">
-                                    <td>💧 <span id="nome-humidade"></span></td>
-                                    <td><span id="valor-humidade"></span>%</td>
-                                    <td><span id="hora-humidade"></span></td>
-                                    <td><span id="status-humidade"></span></td>
-                                </tr>
-                            </tbody>
+                            <?php // Verifica se o utilizador é um administrador
+                            if ($_SESSION['permission'] === 'admin' || $_SESSION['permission'] === 'mod') { ?>
+                                <tbody>
+                                    <!-- Temperatura -->
+                                    <tr onclick="location.href='history.php?nome=temperatura&nometxt'" style="cursor: pointer;">
+                                        <td>🌡️ <span id="nome-temperatura"></span></td>
+                                        <td><span id="valor-temperatura"></span>ºC</td>
+                                        <td><span id="hora-temperatura"></span></td>
+                                        <td><span id="status-temperatura"></span></td>
+                                    </tr>
+                                    <!-- Distancia -->
+                                    <tr onclick="location.href='history.php?nome=distancia&nometxt'" style="cursor: pointer;">
+                                        <td>📏 <span id="nome-distancia"></span></td>
+                                        <td><span id="valor-distancia"></span> cm</td>
+                                        <td><span id="hora-distancia"></span></td>
+                                        <td><span id="status-distancia"></span></td>
+                                    </tr>
+                                    <!-- Humidade -->
+                                    <tr onclick="location.href='history.php?nome=humidade&nometxt'" style="cursor: pointer;">
+                                        <td>💧 <span id="nome-humidade"></span></td>
+                                        <td><span id="valor-humidade"></span>%</td>
+                                        <td><span id="hora-humidade"></span></td>
+                                        <td><span id="status-humidade"></span></td>
+                                    </tr>
+                                </tbody>
+                            <?php } else { ?>
+                                <tbody>
+                                    <!-- Temperatura -->
+                                    <tr>
+                                        <td>🌡️ <span id="nome-temperatura"></span></td>
+                                        <td><span id="valor-temperatura"></span>ºC</td>
+                                        <td><span id="hora-temperatura"></span></td>
+                                        <td><span id="status-temperatura"></span></td>
+                                    </tr>
+                                    <!-- Distancia -->
+                                    <tr>
+                                        <td>📏 <span id="nome-distancia"></span></td>
+                                        <td><span id="valor-distancia"></span> cm</td>
+                                        <td><span id="hora-distancia"></span></td>
+                                        <td><span id="status-distancia"></span></td>
+                                    </tr>
+                                    <!-- Humidade -->
+                                    <tr>
+                                        <td>💧 <span id="nome-humidade"></span></td>
+                                        <td><span id="valor-humidade"></span>%</td>
+                                        <td><span id="hora-humidade"></span></td>
+                                        <td><span id="status-humidade"></span></td>
+                                    </tr>
+                                </tbody>
+                            <?php } ?>
                         </table>
                     </div>
                 </div>
@@ -155,29 +253,56 @@ if (!isset($_SESSION['loggedin'])) { // Verifica se o utilizador está logado
                                     <th>Status</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <!-- Ventoinha -->
-                                <tr onclick="location.href='history.php?nome=ventoinha&nometxt'" style="cursor: pointer;">
-                                    <td>🌬️ <span id="nome-ventoinha"></span></td>
-                                    <td><span id="valor-ventoinha"></span> RPM</td>
-                                    <td><span id="hora-ventoinha"></span></td>
-                                    <td><span id="status-ventoinha"></span></td>
-                                </tr>
-                                <!-- Cancela -->
-                                <tr onclick="location.href='history.php?nome=cancela&nometxt'" style="cursor: pointer;">
-                                    <td>⚙️ <span id="nome-cancela"></span></td>
-                                    <td><span id="valor-cancela"></span>º</td>
-                                    <td><span id="hora-cancela"></span></td>
-                                    <td><span id="status-cancela"></span></td>
-                                </tr>
-                                <!-- Led -->
-                                <tr onclick="location.href='history.php?nome=led&nometxt'" style="cursor: pointer;">
-                                    <td>💡 <span id="nome-led"></span></td>
-                                    <td><span id="valor-led"></span></td>
-                                    <td><span id="hora-led"></span></td>
-                                    <td><span id="status-led"></span></td>
-                                </tr>
-                            </tbody>
+                            <?php // Verifica se o utilizador é um administrador
+                            if ($_SESSION['permission'] === 'admin') { ?>
+                                <tbody>
+                                    <!-- Ventoinha -->
+                                    <tr onclick="location.href='history.php?nome=ventoinha&nometxt'" style="cursor: pointer;">
+                                        <td>🌬️ <span id="nome-ventoinha"></span></td>
+                                        <td><span id="valor-ventoinha"></span> RPM</td>
+                                        <td><span id="hora-ventoinha"></span></td>
+                                        <td><span id="status-ventoinha"></span></td>
+                                    </tr>
+                                    <!-- Cancela -->
+                                    <tr onclick="location.href='history.php?nome=cancela&nometxt'" style="cursor: pointer;">
+                                        <td>⚙️ <span id="nome-cancela"></span></td>
+                                        <td><span id="valor-cancela"></span>º</td>
+                                        <td><span id="hora-cancela"></span></td>
+                                        <td><span id="status-cancela"></span></td>
+                                    </tr>
+                                    <!-- Led -->
+                                    <tr onclick="location.href='history.php?nome=led&nometxt'" style="cursor: pointer;">
+                                        <td>💡 <span id="nome-led"></span></td>
+                                        <td><span id="valor-led"></span></td>
+                                        <td><span id="hora-led"></span></td>
+                                        <td><span id="status-led"></span></td>
+                                    </tr>
+                                </tbody>
+                            <?php } else { ?>
+                                <tbody>
+                                    <!-- Ventoinha -->
+                                    <tr>
+                                        <td>🌬️ <span id="nome-ventoinha"></span></td>
+                                        <td><span id="valor-ventoinha"></span> RPM</td>
+                                        <td><span id="hora-ventoinha"></span></td>
+                                        <td><span id="status-ventoinha"></span></td>
+                                    </tr>
+                                    <!-- Cancela -->
+                                    <tr>
+                                        <td>⚙️ <span id="nome-cancela"></span></td>
+                                        <td><span id="valor-cancela"></span>º</td>
+                                        <td><span id="hora-cancela"></span></td>
+                                        <td><span id="status-cancela"></span></td>
+                                    </tr>
+                                    <!-- Led -->
+                                    <tr>
+                                        <td>💡 <span id="nome-led"></span></td>
+                                        <td><span id="valor-led"></span></td>
+                                        <td><span id="hora-led"></span></td>
+                                        <td><span id="status-led"></span></td>
+                                    </tr>
+                                </tbody>
+                            <?php } ?>
                         </table>
                     </div>
                 </div>

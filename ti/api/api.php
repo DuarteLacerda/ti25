@@ -3,6 +3,20 @@ session_start();
 header('Content-Type: text/html; charset=utf-8'); // Definir o cabeçalho para a resposta como HTML
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if (isset($_GET['get']) && $_GET['get'] == 1) {
+        $sensores = ['temperatura', 'humidade', 'distancia', 'cancela', 'led'];
+
+        foreach ($sensores as $nome) {
+            $valorPath = "$nome/valor.txt";
+            if (file_exists($valorPath)) {
+                $valor = trim(file_get_contents($valorPath));
+                echo "$nome;$valor\n";
+            }
+        }
+        exit;
+    }
+
+
     if (isset($_GET['nome'])) {
         $nome = $_GET['nome'];
         $pasta = "$nome/";
@@ -53,6 +67,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         die("Erro: O parâmetro 'nome' é obrigatório.\n");
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $parametrosLidos = false;
+    // Verifica se os parâmetros 'valor' e 'nome' foram enviados
     if (isset($_POST['valor']) && isset($_POST['nome'])) {
         $valor = $_POST['valor'];
         $hora = date('Y/m/d H:i:s');
@@ -94,8 +110,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
                 if (file_exists($logPath)) {
                     $lines = array_filter(explode("\n", trim(file_get_contents($logPath))));
-                    // Se houver 50 ou mais linhas, remove a primeira (mais antiga)
-                    if (count($lines) >= 50) {
+                    // Se houver 25 ou mais linhas, remove a primeira (mais antiga)
+                    if (count($lines) >= 25) {
                         array_shift($lines);
                     }
                     $logContent = implode("\n", $lines) . "\n";
@@ -104,10 +120,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $logContent .= $log;
                 file_put_contents($logPath, $logContent);
             }
-
+            $parametrosLidos = true;
             die("<p><strong>Sucesso:</strong> Dados do sensor '$nome' atualizados com sucesso.</p>");
         }
-    } else {
+    }
+    if (!$parametrosLidos) {
         http_response_code(400);
         die("<p><strong>Erro:</strong> Dados incompletos. Certifique-se de enviar 'valor', 'nome' e 'hora'.</p>");
     }

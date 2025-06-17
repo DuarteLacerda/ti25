@@ -1,15 +1,26 @@
 <?php
 session_start();
+$error = $_SESSION['error'] ?? '';
+unset($_SESSION['error']);
+
+// Verifica se o utilizador já está logado
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    header('Location: ../dashboard.php'); // Redireciona para o dashboard se já estiver logado
+    exit();
+}
+
 $logFilePath = "credential.txt"; // Caminho do ficheiro de log
 $logData = file($logFilePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 $historico = [];
+$permission = 'user'; // Permissão padrão
 
 foreach ($logData as $linha) { // Processar cada linha do ficheiro
     $dados = explode(";", $linha); // Separar valores por ";"
-    if (count($dados) == 2) {
+    if (count($dados) == 3) {
         $historico[] = [
             "username" => trim($dados[0]), // O email
-            "password" => trim($dados[1])  // A password (hash)
+            "password" => trim($dados[1]), // A password (hash)
+            "permission" => trim($dados[2]) // Permissão, padrão é 'user'
         ];
     }
 }
@@ -21,21 +32,31 @@ if (isset($_POST['username']) && isset($_POST['password'])) { // Verificar se o 
 
     foreach ($historico as $user) {
         if ($email === $user['username'] && password_verify($password, $user['password'])) {
+            $permission = $user['permission'];
             $loginSuccess = true;
             break;
         }
     }
 
-    if ($loginSuccess) { // Login bem-sucedido
-        $_SESSION['loggedin'] = true; // Definir a sessão como logada
+    if ($loginSuccess) {
+        $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $email;
+        $_SESSION['permission'] = $permission; // Armazenar a permissão do utilizador
+
         if (isset($_POST['remember'])) {
-            setcookie('username', $email, time() + (86400 * 30), "/"); // 30 dias
+            // Gerar token
+            $token = bin2hex(random_bytes(32));
+            $_SESSION['token'] = $token;
+            file_put_contents("../api/token.txt", $token);
+            // Definir cookie com o token
+            setcookie('token', $token, time() + (86400 * 30), "/"); // 30 dias
+            setcookie('username', $email, time() + (86400 * 30), "/");
         }
+
         header('Location: ../dashboard.php');
         exit();
     } else {
-        $_SESSION['error'] = "Email ou password incorretos!";
+        $_SESSION['error'] = "Invalid username or password.";
         header('Location: login.php');
         exit();
     }
@@ -76,7 +97,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) { // Verificar se o 
             <form class="AulaForm" action="login.php" method="post">
                 <a href="login.php"><img class="img-fluid formImg" src="../assets/imagens/ProduceShop.png" alt="ESTG" width="350"></a>
                 <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
+                    <label for="username" class="form-label">Nome de Utilizador</label>
                     <input type="text" class="form-control" id="username" name="username" value="<?= htmlspecialchars($_COOKIE['username'] ?? '') ?>" required>
                 </div>
                 <div class="mb-3">
@@ -85,9 +106,9 @@ if (isset($_POST['username']) && isset($_POST['password'])) { // Verificar se o 
                 </div>
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                    <label class="form-check-label" for="remember">Check me out</label>
+                    <label class="form-check-label" for="remember">Lembrar-me</label>
                 </div>
-                <button type="submit" class="formBtn" style="color: white;">Submit</button>
+                <button type="submit" class="formBtn" style="color: white;">Submeter</button>
             </form>
         </div>
     </div>
@@ -104,8 +125,12 @@ if (isset($_POST['username']) && isset($_POST['password'])) { // Verificar se o 
 
                     setTimeout(() => {
                         preloader.style.display = 'none';
-                    }, 500); // Espera pela transição de opacidade do preloader
-                }, 1500); // Espera antes de ocultar o preloader
+
+                        <?php if (!empty($error)) : ?>
+                            alert("<?= addslashes($error) ?>");
+                        <?php endif; ?>
+                    }, 500);
+                }, 1500);
             }
         };
     </script>

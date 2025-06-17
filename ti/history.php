@@ -10,7 +10,7 @@ function formatNumber($num) // Formata o número para duas casas decimais e remo
     return rtrim(rtrim(number_format($num, 2, '.', ''), '0'), '.');
 }
 
-if ($_SESSION['username'] !== 'admin') { // Verifica se o utilizador é administrador
+if ($_SESSION['permission'] !== 'admin' && $_SESSION['permission'] !== 'mod') { // Verifica se o utilizador é administrador
     header("refresh:3;url=dashboard.php");
     die("Acesso restrito. <a href='dashboard.php'>Clique aqui</a> se não for redirecionado automaticamente.");
 }
@@ -29,6 +29,8 @@ $nome = $_GET['nome']; // Obter o nome passado na URL
     <link rel="stylesheet" href="assets/style.css">
     <link rel="stylesheet" href="assets/dashboard.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 </head>
 
 <body>
@@ -39,7 +41,11 @@ $nome = $_GET['nome']; // Obter o nome passado na URL
         <div id="content">
             <div class="container-fluid">
                 <?php include("add-ons/nav.php"); ?>
-                <h2 class="mt-5 mb-4">Histórico de <?php echo ucfirst($nome); ?></h2>
+                <div class="row mt-5 mb-4">
+                    <div class="col-md-12 text-center">
+                        <h2 class="mt-5 mb-4">Histórico de <?php echo ucfirst($nome); ?></h2>
+                    </div>
+                </div>
                 <div class="row mt-4">
                     <table id="historico-<?php echo $nome; ?>" class="table table-bordered table-striped text-center">
                         <thead class="table-dark">
@@ -52,15 +58,23 @@ $nome = $_GET['nome']; // Obter o nome passado na URL
                         <tbody>
                         </tbody>
                     </table>
+                    <p>
+                        <strong>Nota:</strong> O histórico é atualizado automaticamente a cada 5 segundos. Atualize a página para ver os dados mais recentes.
+                    </p>
                 </div>
-                <div class="text-end mt-4 mb-4">
-                    <form action="dashboard.php" method="GET">
-                        <button class="btn btn-outline-dark">Voltar</button>
-                    </form>
+                <div class="row mt-5 mb-4">
+                    <div class="col-md-10 text-center">
+                        <canvas id="chartjs-line" width="500" height="250"></canvas>
+                    </div>
+                    <div class="col-md-2 text-end mt-4 mb-4">
+                        <form action="dashboard.php" method="GET">
+                            <button class="btn btn-outline-dark">Voltar</button>
+                        </form>
+                    </div>
                 </div>
-                <?php include("add-ons/footer.php"); ?>
             </div>
         </div>
+        <?php include("add-ons/footer.php"); ?>
     </div>
     <script>
         window.onload = function() {
@@ -80,6 +94,7 @@ $nome = $_GET['nome']; // Obter o nome passado na URL
             }
         };
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="assets/script.js" defe></script>

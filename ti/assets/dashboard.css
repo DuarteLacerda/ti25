@@ -112,6 +112,23 @@ table {
     margin: 20px 0;
 }
 
+#my-chart {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+#my-chart .line {
+    stroke-width: 2;
+    stroke: var(--text-900);
+    fill: none;
+}
+
+#my-chart .legend {
+    font-size: 12px;
+    fill: var(--text-900);
+}
+
 @keyframes spin {
     from {
         transform: rotate(0deg);

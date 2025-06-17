@@ -194,13 +194,22 @@ document.addEventListener("DOMContentLoaded", () => {
       const linhas = logTexto
         .trim()
         .split("\n")
-        .filter((l) => l.trim() !== "");
+        .filter((l) => l.trim() !== "")
+        .slice(-7); // <- mostra só os últimos 7
+
       const tbody = document.querySelector(`#historico-${nomeSensor} tbody`);
       tbody.innerHTML = "";
+
+      const labels = [];
+      const data = [];
 
       linhas.reverse().forEach((linha) => {
         const [dataHora, valor] = linha.split(";");
         const tr = document.createElement("tr");
+
+        // Adiciona ao gráfico
+        labels.push(dataHora.split(" ")[1]); // só a hora
+        data.push(parseFloat(valor));
 
         // Define alertas com base no tipo de sensor
         let alerta = "";
@@ -210,50 +219,47 @@ document.addEventListener("DOMContentLoaded", () => {
           case "temperatura":
             if (valorNum > 40) {
               alerta = "<span class='badge bg-danger'>Muito Alta</span>";
-            } else if (valorNum < 40 && valorNum > 30) {
+            } else if (valorNum > 30) {
               alerta = "<span class='badge bg-warning text-dark'>Alta</span>";
-            } else if (valorNum < 30 && valorNum > 20) {
+            } else if (valorNum > 20) {
               alerta = "<span class='badge bg-success'>Normal</span>";
-            } else if (valorNum < 20 && valorNum > 10) {
+            } else if (valorNum > 10) {
               alerta = "<span class='badge bg-primary'>Baixa</span>";
-            } else if (valorNum < 10) {
+            } else {
               alerta = "<span class='badge bg-danger'>Muito Baixa</span>";
             }
             break;
           case "humidade":
             if (valorNum > 89) {
               alerta = "<span class='badge bg-danger'>Alta</span>";
-            } else if (valorNum < 90 && valorNum > 39) {
+            } else if (valorNum > 39) {
               alerta = "<span class='badge bg-warning text-dark'>Normal</span>";
-            } else if (valorNum < 40 && valorNum > 0) {
+            } else if (valorNum >= 0) {
               alerta = "<span class='badge bg-primary'>Baixa</span>";
-            } else if (valorNum < 0) {
+            } else {
               alerta = "<span class='badge bg-danger'>Erro no sensor</span>";
             }
             break;
           case "distancia":
             if (valorNum < 11 && valorNum > 0) {
               alerta = "<span class='badge bg-success'>Distancia Curta</span>";
-            } else if (valorNum > 10 && valorNum < 20) {
+            } else if (valorNum < 20) {
               alerta =
                 "<span class='badge bg-warning text-dark'>Distancia Média</span>";
-            } else if (valorNum > 20 && valorNum < 30) {
+            } else if (valorNum < 30) {
               alerta =
                 "<span class='badge bg-warning text-dark'>Distancia Longa</span>";
-            } else if (valorNum > 30) {
+            } else if (valorNum >= 30) {
               alerta = "<span class='badge bg-primary'>Muito Longa</span>";
-            } else if (valorNum < 0) {
+            } else {
               alerta = "<span class='badge bg-danger'>Erro no sensor</span>";
             }
             break;
           case "cancela":
-            if (valorNum > 50) {
-              alerta = "<span class='badge bg-success'>Fechada</span>";
-            } else if (valorNum < 51) {
-              alerta = "<span class='badge bg-danger'>Aberta</span>";
-            } else {
-              alerta = "<span class='badge bg-success'>Erro na cancela</span>";
-            }
+            alerta =
+              valorNum > 50
+                ? "<span class='badge bg-success'>Fechada</span>"
+                : "<span class='badge bg-danger'>Aberta</span>";
             break;
           case "ventoinha":
             if (valorNum > 2000) {
@@ -265,14 +271,19 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             break;
           case "led":
-            if (valorNum == "3") {
-              alerta = "<span class='badge bg-danger'>Ligado</span>";
-            } else if (valorNum == "1") {
-              alerta = "<span class='badge bg-success'>Ligado</span>";
-            } else if (valorNum == "2") {
-              alerta = "<span class='badge bg-warning text-dark'>Ligado</span>";
-            } else {
-              alerta = "<span class='badge bg-primary'>Desligado</span>";
+            switch (valorNum) {
+              case 3:
+                alerta = "<span class='badge bg-danger'>Ligado</span>";
+                break;
+              case 1:
+                alerta = "<span class='badge bg-success'>Ligado</span>";
+                break;
+              case 2:
+                alerta =
+                  "<span class='badge bg-warning text-dark'>Ligado</span>";
+                break;
+              default:
+                alerta = "<span class='badge bg-primary'>Desligado</span>";
             }
             break;
           default:
@@ -280,22 +291,68 @@ document.addEventListener("DOMContentLoaded", () => {
             break;
         }
 
-        // Adiciona a linha ao histórico
-
         tr.innerHTML = `
-          <td>${valor}</td>
-          <td>${dataHora}</td>
-          <td>${alerta}</td>
-        `;
+    <td>${valor}</td>
+    <td>${dataHora}</td>
+    <td>${alerta}</td>
+  `;
         tbody.appendChild(tr);
+
+        // Extrair hora para o eixo X (ou data completa se preferires)
+        labels.push(dataHora.split(" ")[1]);
+        data.push(parseFloat(valor));
       });
+
+      // Chart.js: remove gráfico anterior se já existir
+      if (window.chartHistorico) {
+        window.chartHistorico.destroy();
+      }
+
+      // Cria gráfico novo
+      window.chartHistorico = new Chart(
+        document.getElementById("chartjs-line"),
+        {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: nomeSensor,
+                borderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                pointBackgroundColor: "blue",
+                backgroundColor: "transparent",
+                borderWidth: 1,
+                borderColor: "black",
+                data: data,
+                tension: 0.2,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              x: {
+                grid: { color: "rgba(0,0,0,0.0)" },
+                ticks: { autoSkip: true, maxTicksLimit: 10 },
+              },
+              y: {
+                grid: { color: "rgba(0,0,0,0.0)" },
+              },
+            },
+          },
+        }
+      );
     } catch (erro) {
       console.error("Erro ao carregar o histórico:", erro);
     }
   }
+  // Atualiza os sensores a cada 5 segundos
+  setInterval(atualizarSensores, 5000);
+  atualizarSensores(); // Chamada inicial
 
-  // Atualiza os sensores a cada 1 segundo
-  setInterval(atualizarSensores, 1000);
-  // Atualiza o histórico a cada 3 segundos, começando após 1 segundo
-  setTimeout(() => setInterval(carregarHistorico, 3000), 1000);
+  // Carrega o histórico se o nome do sensor estiver na URL
+  if (nomeSensor) {
+    carregarHistorico();
+  }
 });

@@ -2,8 +2,17 @@
 session_start();
 
 if (isset($_SESSION['loggedin'])) { // Verifica se o utilizador está logado
+    $username = $_SESSION['username'] ?? null; // Guarda antes de destruir a sessão
+
     session_unset();
     session_destroy();
+
+    if ($username && file_exists("api/token.txt")) {
+        $tokenData = file_get_contents("api/token.txt");
+        if (strpos($tokenData, $username) !== false) {
+            unlink("api/token.txt"); // Remove o ficheiro de token
+        }
+    }
 ?>
     <!DOCTYPE html>
     <html lang="en">
