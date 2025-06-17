@@ -27,6 +27,10 @@ body {
     background: linear-gradient(45deg, #8B5CD6, #a77bff);
 }
 
+.bg-c-gray {
+    background: linear-gradient(45deg, gray, rgb(150, 148, 148));
+}
+
 .card {
     border-radius: 5px !important;
     background-color: var(--background-600) !important;
@@ -94,6 +98,11 @@ body {
     .pulse {
         animation: pulse 2.5s linear infinite;
     }
+}
+
+.botao {
+    width: 110px;
+    margin-top: 3px;
 }
 
 #logo-header {

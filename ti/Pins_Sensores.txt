@@ -4,9 +4,5 @@
 |------------------|----------------|------------|
 |      SHT3X       |      SDA       |     21     |
 |      SHT3X       |      SCL       |     22     |
-| Ultrasonic Sensor|    Trigger     |     D9     |
-| Ultrasonic Sensor|      Echo      |     D10    |
-|   Servo Motor    |     Signal     |     D11    |
-|      LED         |      LED       |     12     |
-|      LED         |      LED       |     13     |
-|      LED         |      LED       |     14     |
+|     FAM_PIN      |      5v        |     23     |
+

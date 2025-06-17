@@ -351,8 +351,9 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(atualizarSensores, 5000);
   atualizarSensores(); // Chamada inicial
 
-  // Carrega o histórico se o nome do sensor estiver na URL
+  // Atualiza o histórico a cada 5 segundos se o nome do sensor estiver na URL
   if (nomeSensor) {
-    carregarHistorico();
+    setInterval(carregarHistorico, 5000);
   }
+  carregarHistorico(); // Chamada inicial
 });

@@ -41,8 +41,8 @@ $nome = $_GET['nome']; // Obter o nome passado na URL
         <div id="content">
             <div class="container-fluid">
                 <?php include("add-ons/nav.php"); ?>
-                <div class="row mt-5 mb-4">
-                    <div class="col-md-12 text-center">
+                <div class="row mb-4">
+                    <div class="col-md-12">
                         <h2 class="mt-5 mb-4">Histórico de <?php echo ucfirst($nome); ?></h2>
                     </div>
                 </div>
@@ -59,7 +59,7 @@ $nome = $_GET['nome']; // Obter o nome passado na URL
                         </tbody>
                     </table>
                     <p>
-                        <strong>Nota:</strong> O histórico é atualizado automaticamente a cada 5 segundos. Atualize a página para ver os dados mais recentes.
+                        <strong>Nota:</strong> O histórico é atualizado automaticamente a cada 5 segundos.
                     </p>
                 </div>
                 <div class="row mt-5 mb-4">
