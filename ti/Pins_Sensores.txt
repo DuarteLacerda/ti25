@@ -1,8 +1,22 @@
-# Pin Configuration Table
+# Pin Configuration Table - Esp32
 
 |    Component     |    Pin Type    | Pin Number |
 |------------------|----------------|------------|
-|      SHT3X       |      SDA       |     21     |
-|      SHT3X       |      SCL       |     22     |
-|     FAM_PIN      |      5v        |     23     |
+|      SHT3X       |      SDA       |     33     |
+|      SHT3X       |      SCL       |     32     |
+|------------------|----------------|------------|
+|      FAN_PIN     |      5v        |     13     |
+
+# Pin Configuration Table - Raspberry Pi 5
+
+|    Component     |    Pin Type    | Pin Number |
+|------------------|----------------|------------|
+|     Led Red      |    LED_PIN     |     5      |
+|     Led Green    |    LED_PIN     |     6      |
+|     Led Blue     |    LED_PIN     |     13     |
+|------------------|----------------|------------|
+|     Ultrasonic   |    Echo_PIN    |     20     |
+|     Ultrasonic   |    Trigger_PIN |     21     |
+|------------------|----------------|------------|
+|     Micro Servo  |    Servo_PIN   |     12     |
 

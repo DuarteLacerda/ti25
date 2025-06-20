@@ -59,7 +59,7 @@ $nome = $_GET['nome']; // Obter o nome passado na URL
                         </tbody>
                     </table>
                     <p>
-                        <strong>Nota:</strong> O histórico é atualizado automaticamente a cada 5 segundos.
+                        <strong>Nota:</strong> O histórico é atualizado automaticamente a cada 3 segundos.
                     </p>
                 </div>
                 <div class="row mt-5 mb-4">

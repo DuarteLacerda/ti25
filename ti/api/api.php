@@ -4,11 +4,12 @@ header('Content-Type: text/html; charset=utf-8'); // Definir o cabeçalho para a
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['get']) && $_GET['get'] == 1) {
-        $sensores = ['temperatura', 'humidade', 'distancia', 'cancela', 'led'];
+        $sensores = ['temperatura', 'humidade', 'distancia', 'ventoinha', 'cancela', 'led'];
 
         foreach ($sensores as $nome) {
             $valorPath = "$nome/valor.txt";
             if (file_exists($valorPath)) {
+                $valor = trim(file_get_contents($valorPath));
                 $valor = trim(file_get_contents($valorPath));
                 echo "$nome;$valor\n";
             }
@@ -67,65 +68,118 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         die("Erro: O parâmetro 'nome' é obrigatório.\n");
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $parametrosLidos = false;
-    // Verifica se os parâmetros 'valor' e 'nome' foram enviados
-    if (isset($_POST['valor']) && isset($_POST['nome'])) {
+    $temImagem = isset($_FILES['imagem']);
+    $temNome = isset($_POST['nome']);
+    $temValor = isset($_POST['valor']);
+
+    // === CASO 1: imagem + nome (ex: webcam)
+    if ($temImagem && $temNome && !$temValor) {
+        $nome = $_POST['nome'];
+        $hora = date('Y/m/d H:i:s');
+        $timestamp = date('Ymd_His');
+
+        // Criar pastas
+        if (!file_exists($nome)) mkdir($nome, 0777, true);
+        $imgDir = "$nome/imagens/";
+        if (!file_exists($imgDir)) mkdir($imgDir, 0777, true);
+
+        // Criar nome do ficheiro de imagem
+        $ext = pathinfo($_FILES["imagem"]["name"], PATHINFO_EXTENSION);
+        $filename = "webcam_$timestamp.$ext";
+        $target = $imgDir . $filename;
+
+        // Guardar imagem
+        if (!move_uploaded_file($_FILES["imagem"]["tmp_name"], $target)) {
+            http_response_code(400);
+            die("<p><strong>Erro:</strong> Falha ao guardar imagem.</p>");
+        }
+
+        // Atualizar ficheiros
+        file_put_contents("$nome/nome.txt", $nome);
+        file_put_contents("$nome/hora.txt", $hora);
+
+        // Atualizar log
+        $logPath = "$nome/log.txt";
+        $log = "$hora;$filename\n";
+        $logContent = "";
+
+        if (file_exists($logPath)) {
+            $lines = array_filter(explode("\n", trim(file_get_contents($logPath))));
+            if (count($lines) >= 10) {
+                array_shift($lines);
+            }
+            $logContent = implode("\n", $lines) . "\n";
+        }
+
+        $logContent .= $log;
+        file_put_contents($logPath, $logContent);
+
+        http_response_code(200);
+        die("<p><strong>Sucesso:</strong> Imagem '$filename' do sensor '$nome' guardada.</p>");
+    }
+
+    // === CASO 2: nome + valor (sensores/atuadores), com ou sem imagem
+    if ($temNome && $temValor) {
+        $nome = $_POST['nome'];
         $valor = $_POST['valor'];
         $hora = date('Y/m/d H:i:s');
-        $nome = $_POST['nome'];
 
-        if (empty($valor) || empty($nome)) {
+        if (empty($nome)) {
             http_response_code(400);
-            die("<p><strong>Erro:</strong> O valor e o nome não podem estar vazios.</p>");
-        } else {
-            if (!file_exists($nome)) {
-                mkdir($nome, 0777, true);
-            }
-
-            $valorPath = "$nome/valor.txt";
-            $horaPath = "$nome/hora.txt";
-            $nomePath = "$nome/nome.txt";
-            $logPath = "$nome/log.txt";
-
-            $criarLog = true;
-
-            // Verifica se já existe um valor anterior
-            if (file_exists($valorPath)) {
-                $valorAnterior = trim(file_get_contents($valorPath));
-                // Só cria log se o valor for diferente
-                if ($valorAnterior === $valor) {
-                    $criarLog = false;
-                }
-            }
-
-            // Atualiza os ficheiros
-            file_put_contents($valorPath, $valor);
-            file_put_contents($horaPath, $hora);
-            file_put_contents($nomePath, $nome);
-
-            if ($criarLog) {
-                // Formatar como 'hora;valor\n'
-                $log = "$hora;$valor\n";
-                $logContent = "";
-
-                if (file_exists($logPath)) {
-                    $lines = array_filter(explode("\n", trim(file_get_contents($logPath))));
-                    // Se houver 25 ou mais linhas, remove a primeira (mais antiga)
-                    if (count($lines) >= 25) {
-                        array_shift($lines);
-                    }
-                    $logContent = implode("\n", $lines) . "\n";
-                }
-
-                $logContent .= $log;
-                file_put_contents($logPath, $logContent);
-            }
-            $parametrosLidos = true;
-            die("<p><strong>Sucesso:</strong> Dados do sensor '$nome' atualizados com sucesso.</p>");
+            die("<p><strong>Erro:</strong> 'nome' e são obrigatórios.</p>");
         }
+
+        if (!file_exists($nome)) mkdir($nome, 0777, true);
+
+        $valorPath = "$nome/valor.txt";
+        $horaPath = "$nome/hora.txt";
+        $nomePath = "$nome/nome.txt";
+        $logPath = "$nome/log.txt";
+
+        $criarLog = true;
+        if (file_exists($valorPath)) {
+            $valorAnterior = trim(file_get_contents($valorPath));
+            if ($valorAnterior === $valor) {
+                $criarLog = false;
+            }
+        }
+
+        file_put_contents($valorPath, $valor);
+        file_put_contents($horaPath, $hora);
+        file_put_contents($nomePath, $nome);
+
+        if ($criarLog) {
+            $log = "$hora;$valor\n";
+            $logContent = "";
+            if (file_exists($logPath)) {
+                $lines = array_filter(explode("\n", trim(file_get_contents($logPath))));
+                if (count($lines) >= 25) {
+                    array_shift($lines);
+                }
+                $logContent = implode("\n", $lines) . "\n";
+            }
+            $logContent .= $log;
+            file_put_contents($logPath, $logContent);
+        }
+
+        // Guardar imagem (se enviada)
+        if ($temImagem) {
+            $imgDir = "$nome/imagens/";
+            if (!file_exists($imgDir)) mkdir($imgDir, 0777, true);
+
+            $timestamp = date('Ymd_His');
+            $ext = pathinfo($_FILES["imagem"]["name"], PATHINFO_EXTENSION);
+            $filename = "imagem_$timestamp.$ext";
+            $target = $imgDir . $filename;
+
+            move_uploaded_file($_FILES["imagem"]["tmp_name"], $target);
+        }
+
+        http_response_code(200);
+        die("<p><strong>Sucesso:</strong> Dados de '$nome' atualizados.</p>");
     }
-    if (!$parametrosLidos) {
-        http_response_code(400);
-        die("<p><strong>Erro:</strong> Dados incompletos. Certifique-se de enviar 'valor', 'nome' e 'hora'.</p>");
-    }
+
+    // Caso inválido
+    http_response_code(400);
+    die("<p><strong>Erro:</strong> Dados insuficientes. Envie 'nome' e 'imagem', ou 'nome' e 'valor'.</p>");
 }

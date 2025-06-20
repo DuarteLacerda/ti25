@@ -37,6 +37,11 @@
                         </ul>
                     </div>
                 </li>
+
+                <!-- Botão Webcam -->
+                <li class="nav-item">
+                    <a class="nav-link" href="history.php?nome=webcam&nometxt">Webcam</a>
+                </li>
             <?php } ?>
 
 

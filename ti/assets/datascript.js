@@ -48,12 +48,12 @@ document.addEventListener("DOMContentLoaded", () => {
             case "led":
               if (valorBruto == "3") {
                 estado = "Vermelho";
-              }
-              if (valorBruto == "2") {
+              } else if (valorBruto == "2") {
                 estado = "Amarelo";
-              }
-              if (valorBruto == "1") {
+              } else if (valorBruto == "1") {
                 estado = "Verde";
+              } else {
+                estado = "Desligado";
               }
               valorFormatado = estado;
               switch (estado) {
@@ -68,6 +68,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 case "Verde":
                   statuSpan.innerHTML =
                     "<span class='badge bg-success'>Ligado</span>";
+                  break;
+                case "Desligado":
+                  statuSpan.innerHTML =
+                    "<span class='badge bg-secondary'>Desligado</span>";
                   break;
               }
               break;
@@ -109,20 +113,14 @@ document.addEventListener("DOMContentLoaded", () => {
               }
               break;
             case "cancela":
-              valorFormatado = valorBruto == "50" ? "Aberta" : "Fechada";
+              valorFormatado = valorBruto == "1" ? "Aberta" : "Fechada";
               // Define o estado da cancela com base no valor
-              if (valorNum >= 140 && valorNum <= 180) {
-                statuSpan.innerHTML =
-                  "<span class='badge bg-danger'>Fechada</span>";
-              } else if (valorNum >= 30 && valorNum <= 70) {
+              if (valorBruto == "1") {
                 statuSpan.innerHTML =
                   "<span class='badge bg-success'>Aberta</span>";
-              } else if (valorNum < 0) {
+              } else if (valorBruto == "-1") {
                 statuSpan.innerHTML =
-                  "<span class='badge bg-danger'>Erro no sensor</span>";
-              } else {
-                statuSpan.innerHTML =
-                  "<span class='badge bg-warning text-dark'>Estado indefinido</span>";
+                  "<span class='badge bg-secondary'>Fechada</span>";
               }
               break;
             case "distancia":
@@ -146,17 +144,22 @@ document.addEventListener("DOMContentLoaded", () => {
               }
               break;
             case "ventoinha":
-              valorFormatado = `${parteInteira(valorBruto)} RPM`;
-              // Define o estado com base na velocidade da ventoinha
-              if (valorNum > 2000) {
-                statuSpan.innerHTML =
-                  "<span class='badge bg-danger'>Alto</span>";
-              } else if (valorNum < 1000) {
-                statuSpan.innerHTML =
-                  "<span class='badge bg-primary'>Baixo</span>";
-              } else {
-                statuSpan.innerHTML =
-                  "<span class='badge bg-success'>Normal</span>";
+              if (valorBruto == "1") {
+                estado = "Ligado";
+              }
+              if (valorBruto == "0") {
+                estado = "Desligado";
+              }
+              valorFormatado = estado;
+              switch (estado) {
+                case "Ligado":
+                  statuSpan.innerHTML =
+                    "<span class='badge bg-primary'>Ligado</span>";
+                  break;
+                case "Desligado":
+                  statuSpan.innerHTML =
+                    "<span class='badge bg-secondary'>Desligado</span>";
+                  break;
               }
               break;
           }
@@ -195,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .trim()
         .split("\n")
         .filter((l) => l.trim() !== "")
-        .slice(-7); // <- mostra só os últimos 7
+        .slice(-10); // <- mostra só os últimos 7
 
       const tbody = document.querySelector(`#historico-${nomeSensor} tbody`);
       tbody.innerHTML = "";
@@ -257,28 +260,26 @@ document.addEventListener("DOMContentLoaded", () => {
             break;
           case "cancela":
             alerta =
-              valorNum > 50
+              valorNum == -1
                 ? "<span class='badge bg-success'>Fechada</span>"
                 : "<span class='badge bg-danger'>Aberta</span>";
             break;
           case "ventoinha":
-            if (valorNum > 2000) {
-              alerta = "<span class='badge bg-danger'>Alto</span>";
-            } else if (valorNum < 1000) {
-              alerta = "<span class='badge bg-primary'>Baixo</span>";
-            } else {
-              alerta = "<span class='badge bg-success'>Normal</span>";
+            if (valorNum == 1) {
+              alerta = "<span class='badge bg-primary'>Ligado</span>";
+            } else if (valorNum == 0) {
+              alerta = "<span class='badge bg-secondary'>Desligado</span>";
             }
             break;
           case "led":
             switch (valorNum) {
-              case 3:
+              case "3":
                 alerta = "<span class='badge bg-danger'>Ligado</span>";
                 break;
-              case 1:
+              case "1":
                 alerta = "<span class='badge bg-success'>Ligado</span>";
                 break;
-              case 2:
+              case "2":
                 alerta =
                   "<span class='badge bg-warning text-dark'>Ligado</span>";
                 break;
@@ -307,6 +308,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (window.chartHistorico) {
         window.chartHistorico.destroy();
       }
+
+      labels.reverse(); // Inverte as labels para manter a ordem correta
+      data.reverse(); // Inverte os dados para manter a ordem correta
 
       // Cria gráfico novo
       window.chartHistorico = new Chart(
@@ -347,13 +351,37 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Erro ao carregar o histórico:", erro);
     }
   }
-  // Atualiza os sensores a cada 5 segundos
-  setInterval(atualizarSensores, 5000);
+
+  // Atualiza a imagem da webcam e a hora da última atualização
+  async function atualizarWebcam() {
+    try {
+      const resposta = await fetch("api/get_latest_image.php");
+      const dados = await resposta.json();
+
+      if (dados.path) {
+        const imagem = document.getElementById("imagem-webcam");
+        const hora = document.getElementById("hora-webcam");
+
+        /* imagem.src = `${dados.path}?t=${new Date().getTime()}`; // evita cache */
+        imagem.src = "api/" + dados.path; // evita cache
+        hora.textContent = dados.hora;
+      }
+    } catch (erro) {
+      console.error("Erro ao atualizar a webcam:", erro);
+    }
+  }
+
+  // Atualiza a webcam a cada 3 segundos
+  setInterval(atualizarWebcam, 3000);
+  atualizarWebcam(); // Chamada inicial
+
+  // Atualiza os sensores a cada 3 segundos
+  setInterval(atualizarSensores, 3000);
   atualizarSensores(); // Chamada inicial
 
-  // Atualiza o histórico a cada 5 segundos se o nome do sensor estiver na URL
+  // Atualiza o histórico a cada 3 segundos se o nome do sensor estiver na URL
   if (nomeSensor) {
-    setInterval(carregarHistorico, 5000);
+    setInterval(carregarHistorico, 3000);
   }
   carregarHistorico(); // Chamada inicial
 });

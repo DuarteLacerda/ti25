@@ -30,4 +30,14 @@ document.addEventListener("DOMContentLoaded", () => {
       sidebar.classList.toggle("active");
     });
   }
+  // Close sidebar when clicking outside
+  document.addEventListener("click", (event) => {
+    if (
+      !sidebar.contains(event.target) &&
+      !toggleButton.contains(event.target)
+    ) {
+      sidebar.classList.remove("show");
+      sidebar.classList.remove("active");
+    }
+  });
 });
