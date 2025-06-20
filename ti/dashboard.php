@@ -4,6 +4,26 @@ if (!isset($_SESSION['loggedin'])) { // Verifica se o utilizador está logado
     header("refresh:3;url=auth/login.php");
     die("Acesso não autorizado. <a href='auth/login.php'>Clique aqui</a> se não for redirecionado automaticamente.");
 }
+
+// Exemplo: guardar comandos num ficheiro txt para o backend IoT ler
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['ventoinha'])) {
+        $estadoVentoinha = $_POST['ventoinha'] === "1" ? "1" : "0";
+        file_put_contents('api/ventoinha/valor.txt', $estadoVentoinha);
+    }
+    if (isset($_POST['cancela'])) {
+        $posicaoCancela = intval($_POST['cancela']);
+        file_put_contents('api/cancela/valor.txt', $posicaoCancela);
+    }
+    if (isset($_POST['led'])) {
+        $estadoLed = $_POST['led'] === "1" ? "1" : "0";
+        file_put_contents('api/led/valor.txt', $estadoLed);
+    }
+}
+
+$ventoinha_atual = file_exists('api/ventoinha/valor.txt') ? file_get_contents('api/ventoinha/valor.txt') : "0";
+$cancela_atual = file_exists('api/cancela/valor.txt') ? file_get_contents('api/cancela/valor.txt') : "0";
+$led_atual = file_exists('api/led/valor.txt') ? file_get_contents('api/led/valor.txt') : "0";
 ?>
 
 <!DOCTYPE html>
@@ -38,44 +58,51 @@ if (!isset($_SESSION['loggedin'])) { // Verifica se o utilizador está logado
                     </div>
                 </div>
                 <div class="row mt-2 mb-2">
-                    <?php
-                    // Verifica se o utilizador é um administrador
-                    if ($_SESSION['permission'] === 'admin' || $_SESSION['permission'] === 'mod') { ?>
-                        <div class="col-md-4 col-sm-12 mb-2">
-                            <div class="card bg-c-green order-card">
-                                <div class="card-block">
-                                    <h6 class="m-b-20"><strong><span id="nome-temperatura"></span></strong></h6>
-                                    <h3 class="text-right"><i class="fa-solid fa-temperature-half pulse"></i><span id="valor-temperatura"></span></h3>
-                                    <p class="m-b-0"><strong>Ultima atualização: <span id="hora-temperatura"></span><span class="f-right">
+                    <div class="col-md-4 col-sm-12 mb-2">
+                        <div class="card bg-c-green order-card">
+                            <div class="card-block">
+                                <h6 class="m-b-20"><strong><span id="nome-temperatura"></span></strong></h6>
+                                <h3 class="text-right"><i class="fa-solid fa-temperature-half pulse"></i><span id="valor-temperatura"></span></h3>
+                                <p class="m-b-0"><strong>Ultima atualização: <span id="hora-temperatura"></span><span class="f-right">
+                                            <?php
+                                            // Verifica se o utilizador é um administrador
+                                            if ($_SESSION['permission'] === 'admin' || $_SESSION['permission'] === 'mod') { ?>
                                                 <button onclick="location.href='history.php?nome=temperatura&nometxt'" class="botao btn btn-outline-dark text-decoration-none fw-bold">Histórico
-                                                </button></span></strong></p>
-                                </div>
+                                                </button>
+                                            <?php } ?></span></strong></p>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-12 mb-2">
-                            <div class="card bg-c-blue order-card">
-                                <div class="card-block">
-                                    <h6 class="m-b-20"><strong><span id="nome-distancia"></span></strong></h6>
-                                    <h3 class="text-right"><i class="fa-solid fa-people-arrows pulse"></i><span id="valor-distancia"></span></h3>
-                                    <p class="m-b-0"><strong>Ultima atualização: <span id="hora-distancia"></span><span class="f-right">
-                                                <button onclick="location.href='history.php?nome=distancia&nometxt'" class="botao btn btn-outline-dark text-decoration-none fw-bold">Histórico
-                                                </button></span></strong></p>
-                                </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12 mb-2">
+                        <div class="card bg-c-blue order-card">
+                            <div class="card-block">
+                                <h6 class="m-b-20"><strong><span id="nome-distancia"></span></strong></h6>
+                                <h3 class="text-right"><i class="fa-solid fa-people-arrows pulse"></i><span id="valor-distancia"></span></h3>
+                                <p class="m-b-0"><strong>Ultima atualização: <span id="hora-distancia"></span><span class="f-right">
+                                            <?php
+                                            // Verifica se o utilizador é um administrador
+                                            if ($_SESSION['permission'] === 'admin' || $_SESSION['permission'] === 'mod') { ?>
+                                                <button onclick="location.href='history.php?nome=temperatura&nometxt'" class="botao btn btn-outline-dark text-decoration-none fw-bold">Histórico
+                                                </button>
+                                            <?php } ?></span></strong></p>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-12 mb-2">
-                            <div class="card bg-c-yellow order-card">
-                                <div class="card-block">
-                                    <h6 class="m-b-20"><strong><span id="nome-humidade"></span></strong></h6>
-                                    <h3 class="text-right"><i class="fa-solid fa-droplet pulse"></i><span id="valor-humidade"></span></h3>
-                                    <p class="m-b-0"><strong>Ultima atualização: <span id="hora-humidade"></span><span class="f-right">
-                                                <button onclick="location.href='history.php?nome=humidade&nometxt'" class="botao btn btn-outline-dark text-decoration-none fw-bold">Histórico
-                                                </button></span>
-                                        </strong></p>
-                                </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12 mb-2">
+                        <div class="card bg-c-yellow order-card">
+                            <div class="card-block">
+                                <h6 class="m-b-20"><strong><span id="nome-humidade"></span></strong></h6>
+                                <h3 class="text-right"><i class="fa-solid fa-droplet pulse"></i><span id="valor-humidade"></span></h3>
+                                <p class="m-b-0"><strong>Ultima atualização: <span id="hora-humidade"></span><span class="f-right">
+                                            <?php
+                                            // Verifica se o utilizador é um administrador
+                                            if ($_SESSION['permission'] === 'admin' || $_SESSION['permission'] === 'mod') { ?>
+                                                <button onclick="location.href='history.php?nome=temperatura&nometxt'" class="botao btn btn-outline-dark text-decoration-none fw-bold">Histórico
+                                                </button>
+                                            <?php } ?></span></strong></p>
                             </div>
                         </div>
-                    <?php } ?>
+                    </div>
                     <div class="col-md-4 col-sm-12 mb-2">
                         <div class="card bg-c-orange order-card">
                             <div class="card-block">
@@ -86,10 +113,11 @@ if (!isset($_SESSION['loggedin'])) { // Verifica se o utilizador está logado
                                     if ($_SESSION['permission'] === 'admin') { ?>
                                         <span class="f-right">
                                             <form action="" method="post">
-                                                <input type="hidden" name="ventoinha" value="0">
-                                                <button type="submit" class="botao btn btn-outline-dark text-decoration-none fw-bold"><span>Desligado</span></button>
+                                                <input type="hidden" name="ventoinha" value="<?php echo $ventoinha_atual === '1' ? '0' : '1'; ?>">
+                                                <button type="submit" class="botao btn btn-outline-dark text-decoration-none fw-bold">
+                                                    <span><?php echo $ventoinha_atual === '1' ? 'Desligar' : 'Ligar'; ?></span>
+                                                </button>
                                             </form>
-
                                         </span>
                                     <?php } ?>
                                 </h3>
@@ -115,10 +143,11 @@ if (!isset($_SESSION['loggedin'])) { // Verifica se o utilizador está logado
                                     if ($_SESSION['permission'] === 'admin') { ?>
                                         <span class="f-right">
                                             <form action="" method="post">
-                                                <input type="hidden" name="cancela" value="160">
-                                                <button type="submit" class="botao btn btn-outline-dark text-decoration-none fw-bold"><span>Desligado</span></button>
+                                                <input type="hidden" name="cancela" value="<?php echo $cancela_atual === '1' ? '-1' : '1'; ?>">
+                                                <button type="submit" class="botao btn btn-outline-dark text-decoration-none fw-bold">
+                                                    <span><?php echo $cancela_atual === '1' ? 'Fechar' : 'Abrir'; ?></span>
+                                                </button>
                                             </form>
-
                                         </span>
                                     <?php } ?>
                                 </h3>
@@ -144,8 +173,10 @@ if (!isset($_SESSION['loggedin'])) { // Verifica se o utilizador está logado
                                     if ($_SESSION['permission'] === 'admin') { ?>
                                         <span class="f-right">
                                             <form action="" method="post">
-                                                <input type="hidden" name="led" value="0">
-                                                <button type="submit" class="botao btn btn-outline-dark text-decoration-none fw-bold"><span>Desligado</span></button>
+                                                <input type="hidden" name="led" value="<?php echo ($led_atual != '0') ? '0' : '1'; ?>">
+                                                <button type="submit" class="botao btn btn-outline-dark text-decoration-none fw-bold">
+                                                    <span><?php echo ($led_atual != 'desligado') ? 'Desligar' : 'Ligar'; ?></span>
+                                                </button>
                                             </form>
                                         </span>
                                     <?php } ?>
