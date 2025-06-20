@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Função para atualizar os valores dos sensores
   async function atualizarSensores() {
+    const scrollPos = window.scrollY || window.pageYOffset;
     try {
       const resposta = await fetch("api/data.php"); // Obtém os dados da API
       const dados = await resposta.json();
@@ -180,6 +181,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (erro) {
       console.error("Erro ao carregar os dados dos sensores:", erro);
     }
+    // Restaura a posição de rolagem
+    window.scrollTo(0, scrollPos);
   }
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -187,6 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Função para carregar o histórico de um sensor
   async function carregarHistorico() {
+    const scrollPos = window.scrollY || window.pageYOffset;
     try {
       const resposta = await fetch(`api/logs.php?sensor=${nomeSensor}`);
       const dados = await resposta.json();
@@ -298,10 +302,6 @@ document.addEventListener("DOMContentLoaded", () => {
     <td>${alerta}</td>
   `;
         tbody.appendChild(tr);
-
-        // Extrair hora para o eixo X (ou data completa se preferires)
-        labels.push(dataHora.split(" ")[1]);
-        data.push(parseFloat(valor));
       });
 
       // Chart.js: remove gráfico anterior se já existir
@@ -350,6 +350,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (erro) {
       console.error("Erro ao carregar o histórico:", erro);
     }
+    // Restaura a posição de rolagem
+    window.scrollTo(0, scrollPos);
   }
 
   // Atualiza a imagem da webcam e a hora da última atualização
