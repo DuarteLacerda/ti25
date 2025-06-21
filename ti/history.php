@@ -46,22 +46,41 @@ $nome = $_GET['nome']; // Obter o nome passado na URL
                         <h2 class="mt-5 mb-4">Histórico de <?php echo ucfirst($nome); ?></h2>
                     </div>
                 </div>
-                <div class="row mt-4">
-                    <table id="historico-<?php echo $nome; ?>" class="table table-bordered table-striped text-center">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Valor</th>
-                                <th>Data de Atualização</th>
-                                <th>Estado Alertas</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                    <p>
-                        <strong>Nota:</strong> O histórico é atualizado automaticamente a cada 3 segundos.
-                    </p>
-                </div>
+                <?php
+                if ($nome == 'webcam') { ?>
+                    <div class="row mt-4">
+                        <table id="historico-<?php echo $nome; ?>" class="table table-bordered table-striped text-center">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Valor</th>
+                                    <th>Data de Atualização</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <p>
+                            <strong>Nota:</strong> O histórico é atualizado automaticamente a cada 3 segundos.
+                        </p>
+                    </div>
+                <?php } else { ?>
+                    <div class="row mt-4">
+                        <table id="historico-<?php echo $nome; ?>" class="table table-bordered table-striped text-center">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Valor</th>
+                                    <th>Data de Atualização</th>
+                                    <th>Estado Alertas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <p>
+                            <strong>Nota:</strong> O histórico é atualizado automaticamente a cada 3 segundos.
+                        </p>
+                    </div>
+                <?php } ?>
                 <div class="row mt-5 mb-4">
                     <div class="col-md-10 text-center">
                         <canvas id="chartjs-line" width="500" height="250"></canvas>

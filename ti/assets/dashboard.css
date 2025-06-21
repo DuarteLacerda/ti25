@@ -61,7 +61,7 @@ body {
 .card .card-block {
     padding: 25px;
     min-height: 150px !important;
-    max-height: 300px !important;
+    max-height: 350px !important;
 }
 
 .order-card i {

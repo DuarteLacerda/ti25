@@ -112,7 +112,7 @@ $led_atual = file_exists('api/led/valor.txt') ? file_get_contents('api/led/valor
                                     // Verifica se o utilizador é um administrador
                                     if ($_SESSION['permission'] === 'admin') { ?>
                                         <span class="f-right">
-                                            <form action="" method="post">
+                                            <form class="form-ventoinha" action="" method="post">
                                                 <input type="hidden" name="ventoinha" value="<?php echo $ventoinha_atual === '1' ? '0' : '1'; ?>">
                                                 <button type="submit" class="botao btn btn-outline-dark text-decoration-none fw-bold">
                                                     <span><?php echo $ventoinha_atual === '1' ? 'Desligar' : 'Ligar'; ?></span>
@@ -142,10 +142,10 @@ $led_atual = file_exists('api/led/valor.txt') ? file_get_contents('api/led/valor
                                     // Verifica se o utilizador é um administrador
                                     if ($_SESSION['permission'] === 'admin') { ?>
                                         <span class="f-right">
-                                            <form action="" method="post">
-                                                <input type="hidden" name="cancela" value="<?php echo $cancela_atual === '1' ? '-1' : '1'; ?>">
+                                            <form class="form-cancela" action="" method="post">
+                                                <input type="hidden" name="cancela" value="<?php echo ($cancela_atual == '1' || $cancela_atual == '1.0') ? '-1' : '1'; ?>">
                                                 <button type="submit" class="botao btn btn-outline-dark text-decoration-none fw-bold">
-                                                    <span><?php echo $cancela_atual === '1' ? 'Fechar' : 'Abrir'; ?></span>
+                                                    <span><?php echo ($cancela_atual == '1' || $cancela_atual == '1.0') ? 'Fechar' : 'Abrir'; ?></span>
                                                 </button>
                                             </form>
                                         </span>
@@ -172,10 +172,10 @@ $led_atual = file_exists('api/led/valor.txt') ? file_get_contents('api/led/valor
                                     // Verifica se o utilizador é um administrador
                                     if ($_SESSION['permission'] === 'admin') { ?>
                                         <span class="f-right">
-                                            <form action="" method="post">
+                                            <form class="form-led" action="" method="post">
                                                 <input type="hidden" name="led" value="<?php echo ($led_atual != '0') ? '0' : '1'; ?>">
                                                 <button type="submit" class="botao btn btn-outline-dark text-decoration-none fw-bold">
-                                                    <span><?php echo ($led_atual != 'desligado') ? 'Desligar' : 'Ligar'; ?></span>
+                                                    <span><?php echo ($led_atual != '0.0') ? 'Desligar' : 'Ligar'; ?></span>
                                                 </button>
                                             </form>
                                         </span>
@@ -204,6 +204,13 @@ $led_atual = file_exists('api/led/valor.txt') ? file_get_contents('api/led/valor
                                     <div class="d-flex flex-column align-items-center justify-content-center">
                                         <img id="imagem-webcam" alt="Imagem da webcam" class="img-fluid rounded">
                                         <p class="mt-2"><strong>Ultima atualização: <span id="hora-webcam"></span></strong></p>
+                                        <?php
+                                        // Verifica se o utilizador é um administrador
+                                        if ($_SESSION['permission'] === 'admin' || $_SESSION['permission'] === 'mod') { ?>
+                                            <span class="f-right">
+                                                <button onclick="location.href='history.php?nome=webcam&nometxt'" class="botao btn btn-outline-dark text-decoration-none fw-bold">Histórico
+                                                </button></span>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             </div>
@@ -302,7 +309,7 @@ $led_atual = file_exists('api/led/valor.txt') ? file_get_contents('api/led/valor
                                     <!-- Cancela -->
                                     <tr onclick="location.href='history.php?nome=cancela&nometxt'" style="cursor: pointer;">
                                         <td>⚙️ <span id="nome-cancela"></span></td>
-                                        <td><span id="valor-cancela"></span>º</td>
+                                        <td><span id="valor-cancela"></span></td>
                                         <td><span id="hora-cancela"></span></td>
                                         <td><span id="status-cancela"></span></td>
                                     </tr>
@@ -363,6 +370,54 @@ $led_atual = file_exists('api/led/valor.txt') ? file_get_contents('api/led/valor
                 }, 1500); // Espera antes de ocultar o preloader
             }
         };
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            function ajaxFormSubmit(formClass) {
+                const form = document.querySelector(formClass);
+                if (!form) return;
+
+                form.addEventListener("submit", function(e) {
+                    e.preventDefault(); // Evita reload da página
+
+                    const formData = new FormData(form);
+
+                    fetch("", { // envia para esta mesma página
+                            method: "POST",
+                            body: formData,
+                            credentials: "same-origin"
+                        })
+                        .then(response => {
+                            if (!response.ok) throw new Error("Erro na rede");
+                            return response.text();
+                        })
+                        .then(data => {
+                            console.log("Comando enviado com sucesso!");
+                            // Aqui podes atualizar o texto do botão para refletir novo estado sem reload
+                            // Exemplo simples: alternar texto
+                            const button = form.querySelector("button span");
+                            if (formClass === ".form-ventoinha") {
+                                button.textContent = button.textContent.includes("Ligar") ? "Desligar" : "Ligar";
+                                form.querySelector("input[name='ventoinha']").value = form.querySelector("input[name='ventoinha']").value === "1" ? "0" : "1";
+                            } else if (formClass === ".form-cancela") {
+                                button.textContent = button.textContent.includes("Abrir") ? "Fechar" : "Abrir";
+                                form.querySelector("input[name='cancela']").value = form.querySelector("input[name='cancela']").value === "1" ? "-1" : "1";
+                            } else if (formClass === ".form-led") {
+                                button.textContent = button.textContent.includes("Ligar") ? "Desligar" : "Ligar";
+                                form.querySelector("input[name='led']").value = form.querySelector("input[name='led']").value === "1" ? "0" : "1";
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Erro:", error);
+                        });
+                });
+            }
+
+            ajaxFormSubmit(".form-ventoinha");
+            ajaxFormSubmit(".form-cancela");
+            ajaxFormSubmit(".form-led");
+
+        });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
