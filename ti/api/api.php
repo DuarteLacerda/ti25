@@ -10,7 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $valorPath = "$nome/valor.txt";
             if (file_exists($valorPath)) {
                 $valor = trim(file_get_contents($valorPath));
-                $valor = trim(file_get_contents($valorPath));
                 echo "$nome;$valor\n";
             }
         }
