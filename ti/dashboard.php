@@ -82,7 +82,7 @@ $led_atual = file_exists('api/led/valor.txt') ? file_get_contents('api/led/valor
                                             <?php
                                             // Verifica se o utilizador é um administrador
                                             if ($_SESSION['permission'] === 'admin' || $_SESSION['permission'] === 'mod') { ?>
-                                                <button onclick="location.href='history.php?nome=temperatura&nometxt'" class="botao btn btn-outline-dark text-decoration-none fw-bold">Histórico
+                                                <button onclick="location.href='history.php?nome=distancia&nometxt'" class="botao btn btn-outline-dark text-decoration-none fw-bold">Histórico
                                                 </button>
                                             <?php } ?></span></strong></p>
                             </div>
@@ -97,7 +97,7 @@ $led_atual = file_exists('api/led/valor.txt') ? file_get_contents('api/led/valor
                                             <?php
                                             // Verifica se o utilizador é um administrador
                                             if ($_SESSION['permission'] === 'admin' || $_SESSION['permission'] === 'mod') { ?>
-                                                <button onclick="location.href='history.php?nome=temperatura&nometxt'" class="botao btn btn-outline-dark text-decoration-none fw-bold">Histórico
+                                                <button onclick="location.href='history.php?nome=humidade&nometxt'" class="botao btn btn-outline-dark text-decoration-none fw-bold">Histórico
                                                 </button>
                                             <?php } ?></span></strong></p>
                             </div>

@@ -5,11 +5,11 @@
 |      SHT3X       |      SDA       |     33     |
 |      SHT3X       |      SCL       |     32     |
 |------------------|----------------|------------|
-|      FAN_PIN     |      5v        |     13     |
+|      FAN_PIN     |      3.3       |     13     |
 
 # Pin Configuration Table - Raspberry Pi 5
 
-|    Component     |    Pin Type    | Pin Number |
+|    Component     |    Pin Type    |  GPIO Pin  |
 |------------------|----------------|------------|
 |     Led Red      |    LED_PIN     |     5      |
 |     Led Green    |    LED_PIN     |     6      |
