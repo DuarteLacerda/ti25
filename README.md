@@ -9,7 +9,8 @@ The aim is to apply IoT concepts, web development, and data management without a
 
 ## 🛠️ Technologies Used
 
-* Raspberry Pi 3 Model B
+* Raspberry Pi 5
+* Esp32 Dev Kit
 * PHP (without frameworks)
 * HTML5, CSS3, JavaScript (Bootstrap for responsive design)
 * File system for data storage (TXT)
